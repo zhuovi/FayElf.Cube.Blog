@@ -56,7 +56,8 @@
         }
     
     ]]></Script>
-    <LayScript><![CDATA[
+    <LayScript>
+				<![CDATA[
       
       if(event == 'allopen'){
         treetable.expandAll('#table-data-List');
@@ -70,7 +71,7 @@
             fixed: true,
             maxmin: true,
             scrollbar: false,
-            content: '/Admin/Category/Add?ID='+data.ID+'&iframe=1'
+            content: '/'+ AdminAreaName +'/Category/Add?ID='+data.ID+'&iframe=1'
         });
         return;
       }
