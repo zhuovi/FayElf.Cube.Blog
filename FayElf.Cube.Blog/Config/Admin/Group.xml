@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DataName="FayElf.Cube.Admin" Description="角色页配置">
+	<Page Name="List" DataName="FayElf.Cube.Admin" Description="角色列表" PageType="List" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbGroupsModel, XiaoFeng.Mvc" IsPage="true" SqlOrder="AddDate Desc" IsToolBar="true" PageSize="20" win-type="Null" win-width="0" win-height="0">
+		<Script>
+			<![CDATA[      
+     var SetPass = function(o,data,json){
+	     ZW.CMS.SetFieldData(AdminAreaName +'/Group',{WhereName:'ID',WhereValue:json["ID"],FieldName:'Pass',FieldValue:data.elem.checked});
+	     return;
+     }    
+    ]]>
+		</Script>
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="ID" Description="ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="Name" Description="角色名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="Pass" Description="状态" FieldType="checkbox1" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="100" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" CallBack="SetPass" InLine="false" Data="启用|停用" />
+			<Field Name="AddDate" Description="添加时间" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="150" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+		</Fields>
+		<Buttons Width="0">
+			<Button Name="Deletes" Description="批量删除" ButtonType="button" Event="DbNull" Class="layui-btn-danger" Title="批量删除" lay-event="deletes" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]></Button>
+			<Button Name="Add" Description="添加" ButtonType="button" Event="DbNull" Class="" Title="添加" lay-event="add" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="1" Visible="true"><![CDATA[<i class="layui-icon">&#xe654;</i>添加]]></Button>
+		</Buttons>
+		<Menus Width="90">
+			<Button Name="Edit" Description="编辑" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="编辑" lay-event="edit" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="2" Visible="true"><![CDATA[<i class="layui-icon">&#xe642;</i>]]></Button>
+			<Button Name="Delete" Description="删除" ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" Title="删除" lay-event="delete" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>]]></Button>
+		</Menus>
+		<Querys />
+	</Page>
+	<Page Name="Add" DataName="FayElf.Cube.Admin" Description="添加角色" PageType="Add" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbGroupsModel, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" PageSize="20" win-type="Null" win-width="0" win-height="0">
+		<Tabs TabType="Tab" EventType="DbNull">
+			<Tab Name="Attributes" Description="属性" Index="1" Visible="true" />
+			<Tab Name="Groups" Description="权限" Index="2" Visible="true" />
+		</Tabs>
+		<Fields>
+			<Field Name="Name" Description="角色名称" FieldType="text" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Attributes" CallBack="" Resize="true" Event="DbNull" lay-filter="Name" InLine="false" />
+			<Field Name="GroupIDs" Description="权限" FieldType="groups" Data="URL:/Admin/Group/GetGroups" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Groups" CallBack="" Resize="true" Event="DbNull" lay-filter="GroupIDs" InLine="false" />
+			<Field Name="FunctionIDs" Description="功能" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Attributes" CallBack="" Resize="true" Event="DbNull" lay-filter="FunctionIDs" InLine="false" />
+			<Field Name="ParentID" Description="父节点" FieldType="hidden" Data="" DefaultValue="0" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Attributes" CallBack="" Resize="true" Event="DbNull" lay-filter="ParentID" InLine="false" />
+			<Field Name="Pass" Description="状态" FieldType="checkbox1" Data="启用|停用" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="true" TabName="Attributes" CallBack="" Resize="true" Event="DbNull" lay-filter="Pass" InLine="false" />
+			<Field Name="SortID" Description="排序" FieldType="text" Data="" DefaultValue="100000" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Attributes" CallBack="" Resize="true" Event="DbNull" lay-filter="SortID" InLine="false" />
+		</Fields>
+	</Page>
+	<Page Name="Detail" DataName="FayElf.Cube.Admin" Description="角色详情" PageType="Detail" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbGroupsModel, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" PageSize="10" win-type="Null" win-width="0" win-height="0">
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="ID" Description="ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="Name" Description="角色名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="GroupIDs" Description="权限" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="FunctionIDs" Description="功能" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="ParentID" Description="父节点" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="Pass" Description="是否启用" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="SortID" Description="排序" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="IsDelete" Description="是否删除" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="AddDate" Description="添加时间" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="AddTimeStamp" Description="添加时间戳" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+		</Fields>
+	</Page>
+</Pages>

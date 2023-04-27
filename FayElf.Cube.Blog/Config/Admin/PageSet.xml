@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DataName="ZW_Tb_Admin" Description="页面页配置">
+  <Page Name="PageSet" DataName="" Description="页面配置" PageType="List" IsPage="true" PageSize="10">
+    <LayScript>
+      <![CDATA[
+        if(event == 'editcode'){
+          ZW.CMS.TabAdd("编辑[" + data.Name + "]", Path +'Code' + Querys +(Querys == '?' ? '' : '&') +"TypeName="+ encodeURIComponent(data.ID));
+        }else if(event == 'pagelist'){
+          ZW.CMS.TabAdd("页面列表[" + data.Name + "]", Path +'Detail' + Querys +(Querys == '?' ? '' : '&') +"TypeName="+ encodeURIComponent(data.ID));
+        }
+      ]]>
+    </LayScript>
+    <Fields>
+      <Field Name="ID" Description="ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Name" Description="配置名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="200" Height="0" Visible="true" Link="pagelist" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Description" Description="说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="200" Align="left" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="CacheKey" Description="缓存Key" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="200" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Path" Description="路径" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button Name="Deletes" ButtonType="button" Event="DbNull" Class="layui-btn-danger" lay-event="deletes" lay-submit="true" Title="批量删除" Url="" AuthID="3" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]>
+      </Button>
+    </Buttons>
+    <Menus Width="140">
+      <Button Name="Detail" ButtonType="button" Class="layui-btn-xs" lay-event="pagelist" Title="详情" AuthID="4" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe65f;</i>]]>
+      </Button>
+      <Button Name="Edit" ButtonType="button" Class="layui-btn-xs" lay-event="edit" Title="编辑" Url="PageSetEdit" win-type="Open" win-width="400" win-height="330" AuthID="2" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe642;</i>]]>
+      </Button>
+      <Button Name="EditCode" ButtonType="button" Class="layui-btn-xs" lay-event="editcode" Title="编辑代码" AuthID="2" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe64e;</i>]]>
+      </Button>
+      <Button Name="Delete" ButtonType="button" Class="layui-btn-xs layui-btn-danger" lay-event="delete" Title="删除" AuthID="3" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>]]>
+      </Button>
+    </Menus>
+    <Querys>
+      <Query Name="Name" Description="关键词" Placeholder="请输入关键词" FieldType="text" DefaultValue="" Format="" Disabled="true" Visible="true"/>
+      <Query Name="DataName" Description="所属数据库" FieldType="select" Data="DataBase:" DefaultValue="" Format="" Disabled="true" FirstOption="请选择所属数据库" Visible="true"/>
+    </Querys>
+  </Page>
+  <Page Name="PageSetEdit" DataName="FayElf.Cube.Admin" Description="编辑配置页" PageType="Update" IsPage="false">
+    <Fields>
+      <Field Name="Name" Description="配置名称" FieldType="text" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="false" Checked="false" Resize="true" Pattern="^[a-z0-9-_]+$" />
+      <Field Name="Description" Description="配置说明" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="DataName" Description="所属数据库" FieldType="select" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Data="DataBase:" />
+    </Fields>
+  </Page>
+  <Page Name="PageList" DataName="FayElf.Cube.Admin" Description="页面列表" PageType="List" IsPage="false" PageUrl="PageList">
+    <LayScript>
+      <![CDATA[
+        if(event == 'pagedetail'){
+          ZW.CMS.TabAdd("页面详情[" + data.Name + "]", Path +'PageDetail' + Querys +(Querys == '?' ? '' : '&') +"PageName="+ data.Name);
+        }else if(event == 'editcode'){
+          ZW.CMS.TabAdd("编辑[" + data.Name + "]", Path + 'PageCode' + Querys +(Querys == '?' ? '' : '&') +"PageName="+ data.Name);
+        }else if(event == 'editpage'){
+          layer.open({
+                      title: '更新数据',
+                      type: 2,
+                      area: [ZW.CMS.Common.IsMobilePhone() ? '100%' : '600px', '428px'],
+                      fixed: true,
+                      maxmin: true,
+                      scroll: false,
+                      content: 'PageEdit' + Querys + (Querys == '?' ? '' : '&') +'PageName=' + data.Name + "&iframe=1"
+                  });
+        }else if(event == 'pageadd'){
+          layer.open({
+                      title: '添加数据',
+                      type: 2,
+                      area: [ZW.CMS.Common.IsMobilePhone() ? '100%' : '600px', '428px'],
+                      fixed: true,
+                      maxmin: true,
+                      scroll: false,
+                      content: 'PageEdit' + Querys + (Querys == '?' ? '' : '&') +"iframe=1"
+                  });
+        }else if(event == 'control'){
+          ZW.CMS.TabAdd("可视化控件[" + data.Name + "]", Path + 'PageControl' + Querys +(Querys == '?' ? '' : '&') +"PageName="+ data.Name);
+        }
+      ]]>
+    </LayScript>
+    <Fields>
+      <Field Name="Name" Description="页面名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Link="pagedetail" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Description" Description="页面说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="PageType" Description="页面类型" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="DataName" Description="所属数据库" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-danger" lay-event="deletes" lay-submit="true" Title="批量删除" Url="DeletePage" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="pageadd" lay-submit="true" Title="添加" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe654;</i>添加]]>
+      </Button>
+    </Buttons>
+    <Menus Width="170">
+      <Button ButtonType="button" Class="layui-btn-xs" lay-event="pagedetail" Title="详情" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe65f;</i>]]>
+      </Button>
+      <Button ButtonType="button" Class="layui-btn-xs" lay-event="control" Title="控件管理" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe635;</i>]]>
+      </Button>
+      <Button ButtonType="button" Class="layui-btn-xs" lay-event="editpage" Title="视图编辑" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe642;</i>]]>
+      </Button>
+      <Button ButtonType="button" Class="layui-btn-xs" lay-event="editcode" Title="编辑代码" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe64e;</i>]]>
+      </Button>
+      <Button ButtonType="button" Class="layui-btn-xs layui-btn-danger" lay-event="delete" Title="删除" Url="DeletePage" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>]]>
+      </Button>
+    </Menus>
+  </Page>
+  <Page Name="PageEdit" DataName="FayElf.Cube.Admin" Description="编辑配置页面" PageType="Update" IsPage="false" PageUrl="PageUpdate">
+    <Script>
+      <![CDATA[
+      var changeValue = function(e){
+        var $ = layui.$;
+        if(e.elem.checked){
+          $("#PageSize").parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $("#PageSize").parents('.layui-form-item').addClass('zw-dpn');
+        }
+      }
+      var ChangeType = function(e){
+        var $ = layui.$;
+         console.log(e.value);
+        if(e.value == 'List'){
+          $("#IsToolBar,#IsNum,#IsBox,#IsPage").parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $("#IsToolBar,#IsNum,#IsBox,#IsPage").parents('.layui-form-item').addClass('zw-dpn');
+        }
+      }
+    ]]>
+    </Script>
+    <LayScript>
+      <![CDATA[
+        if($('#IsPage').is(":checked")){
+          $("#PageSize").parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $("#PageSize").parents('.layui-form-item').addClass('zw-dpn');
+        }
+        if($("#PageType").val() == 'List'){
+          $("#IsToolBar,#IsNum,#IsBox,#IsPage").parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $("#IsToolBar,#IsNum,#IsBox,#IsPage").parents('.layui-form-item').addClass('zw-dpn');
+        }
+        form.render();
+      ]]>
+    </LayScript>
+    <Fields>
+      <Field Name="Name" Description="页面名称" FieldType="text" Placeholder="页面名称" Must="true" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Pattern="^[a-z0-9-_]+$" />
+      <Field Name="Description" Description="页面说明" FieldType="text" Placeholder="页面说明" Must="true" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="PageType" Description="页面类型" FieldType="select" Data="Enum:XiaoFeng.Mvc.PageType#Description,value" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="Detail" InLine="true" Event="change" CallBack="ChangeType"/>
+      <Field Name="DataName" Description="数据库" FieldType="select" Data="DataBase:" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true"  InLine="true"/>
+      <Field Name="ModelType" Description="数据模型" FieldType="searchselect" Data="Model:" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="PageUrl" Description="请求页地址" FieldType="text" Placeholder="请求页地址" Visible="true" Disabled="true"/>
+      <Field Name="IsPage" Description="是否分页" FieldType="checkbox" DefaultValue="true" Checked="true" InLine="true" Visible="true" Disabled="true" Event="change" CallBack="changeValue"/>
+      <Field Name="PageSize" Description="每页多少条" FieldType="text" DefaultValue="10" Visible="true" Disabled="true" InLine="true"/>
+      <Field Name="SqlWhere" Description="SQL条件" FieldType="text" Placeholder="Sql条件" Visible="true" Disabled="true"/>
+      <Field Name="SqlOrder" Description="Sql排序" FieldType="text" Placeholder="Sql排序" Visible="true" Disabled="true" Tips="不要带Order by,如 ColumnName1 asc,ColumnName2 desc"/>
+      <Field Name="IsToolBar" Description="ToolBar" FieldType="checkbox1" DefaultValue="true" Checked="true" InLine="true" Visible="true" Disabled="true" Data="有|无"/>
+      <Field Name="IsBox" Description="选框列" FieldType="checkbox1" DefaultValue="true" Checked="true" InLine="true" Visible="true" Disabled="true" Data="有|无"/>
+      <Field Name="IsNum" Description="序号列" FieldType="checkbox1" DefaultValue="true" Checked="true" InLine="true" Visible="true" Disabled="true" Data="有|无"/>
+      <Field Name="RowClickCallBack" Description="行点击回调" FieldType="text" Placeholder="行点击回调方法" Visible="true" Disabled="true"/>
+      <Field Name="CellEditCallBack" Description="列编辑回调" FieldType="text" Placeholder="列编辑回调方法" Visible="true" Disabled="true"/>
+    </Fields>
+  </Page>
+  <Page Name="PageControl" DataName="FayElf.Cube.Admin" Description="控件列表" PageType="Mix" PageUrl="/Admin/PageSet/PageControlCode" IsPage="false">
+    <Script />
+    <Tabs TabType="Group" EventType="DbNull">
+      <Tab Name="Fields" Description="显示列" Index="0" Visible="true" Disabled="true" />
+      <Tab Name="Querys" Description="参数" Index="1" Visible="true" Disabled="true" />
+      <Tab Name="Buttons" Description="按扭" Index="2" Visible="true" Disabled="true" />
+      <Tab Name="Menus" Description="菜单" Index="3" Visible="true" Disabled="true" />
+      <Tab Name="Tabs" Description="选项卡" Index="4" Visible="true" Disabled="true" />
+      <Tab Name="LayScripts" Description="Layui脚本" Index="5" Visible="true" Disabled="true" />
+      <Tab Name="Scripts" Description="全局脚本" Index="6" Visible="true" Disabled="true" />
+      <Tab Name="LoadScripts" Description="数据加载完脚本" Index="7" Visible="true" Disabled="true" />
+      <Tab Name="SubmitScripts" Description="表单提交验证脚本" Index="8" Visible="true" Disabled="true" />
+      <Tab Name="HeadTemplates" Description="头部模板" Index="9" Visible="true" Disabled="true" />
+      <Tab Name="FootTemplates" Description="尾部模板" Index="10" Visible="true" Disabled="true" />
+    </Tabs>
+    <Fields>
+      <Field Name="FieldsList" Description="Field列表" FieldType="page" Data="FieldsList" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Fields" Resize="true" />
+      <Field Name="TabsList" Description="Tab列表" FieldType="page" Data="TabsList" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Tabs" Resize="true" />
+      <Field Name="QuerysList" Description="Query列表" FieldType="page" Data="QuerysList" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Querys" Resize="true" />
+      <Field Name="ButtonsList" Description="Button列表" FieldType="page" Data="ButtonsList" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Buttons" Resize="true" />
+      <Field Name="MenusList" Description="Menu列表" FieldType="page" Data="MenusList" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Menus" Resize="true" />
+      <Field Name="LayScripts" Description="Lay脚本" FieldType="page" Data="LayScripts" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="LayScripts" Resize="true" />
+      <Field Name="Scripts" Description="全局脚本" FieldType="page" Data="Scripts" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="Scripts" Resize="true" />
+      <Field Name="LoadScripts" Description="数据加载完脚本" FieldType="page" Data="LoadScripts" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="LoadScripts" Resize="true" />
+      <Field Name="SubmitScripts" Description="表单提交验证脚本" FieldType="page" Data="SubmitScripts" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="SubmitScripts" Resize="true" />
+      <Field Name="HeadTemplates" Description="头部模板" FieldType="page" Data="HeadTemplates" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="HeadTemplates" Resize="true"/>
+      <Field Name="FootTemplates" Description="尾部模板" FieldType="page" Data="FootTemplates" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" TabName="FootTemplates" Resize="true" />
+    </Fields>
+  </Page>
+  <Page Name="Scripts" DataName="FayElf.Cube.Admin" Description="编辑全局脚本" PageType="Update" PageUrl="/Admin/PageSet/PageControlEditScript" IsPage="false">
+    <Fields>
+      <Field Name="Script" Description="全局脚本" FieldType="editorcode" Data="javascript" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="500" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Placeholder="text/javascript" />
+    </Fields>
+  </Page>
+  <Page Name="LayScripts" DataName="FayElf.Cube.Admin" Description="编辑Layui脚本" PageType="Update" PageUrl="/Admin/PageSet/PageControlEditLayScript" IsPage="false">
+    <Fields>
+      <Field Name="LayScript" Description="Layui脚本" FieldType="editorcode" Data="javascript" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="500" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Placeholder="text/javascript"/>
+    </Fields>
+  </Page>
+  <Page Name="LoadScripts" DataName="FayElf.Cube.Admin" Description="编辑数据加完脚本" PageType="Update" PageUrl="/Admin/PageSet/PageControlEditLoadScript" IsPage="false">
+    <Fields>
+      <Field Name="LoadScript" Description="数据加载完脚本" FieldType="editorcode" Data="javascript" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="500" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Placeholder="text/javascript"/>
+    </Fields>
+  </Page>
+  <Page Name="SubmitScripts" DataName="FayElf.Cube.Admin" Description="编辑表单提交验证脚本" PageType="Update" PageUrl="/Admin/PageSet/PageControlEditSubmitScript" IsPage="false">
+    <Fields>
+      <Field Name="SubmitScript" Description="表单提交验证脚本" FieldType="editorcode" Data="javascript" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="500" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Placeholder="text/javascript"/>
+    </Fields>
+  </Page>
+  <Page Name="HeadTemplates" DataName="FayElf.Cube.Admin" Description="编辑头部模板" PageType="Update" PageUrl="/Admin/PageSet/PageControlEditHeadTemplate" IsPage="false">
+    <Fields>
+      <Field Name="HeadTemplate" Description="头部模板" FieldType="editorcode" Data="html" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="500" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Placeholder="text/html"/>
+    </Fields>
+  </Page>
+  <Page Name="FootTemplates" DataName="FayElf.Cube.Admin" Description="编辑尾部模板" PageType="Update" PageUrl="/Admin/PageSet/PageControlEditFootTemplate" IsPage="false">
+    <Fields>
+      <Field Name="FootTemplate" Description="尾部模板" FieldType="editorcode" Data="html" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="500" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Placeholder="text/javascript"/>
+    </Fields>
+  </Page>
+  <Page Name="FieldsList" DataName="FayElf.Cube.Admin" Description="显示列列表" PageType="List" PageUrl="/Admin/PageSet/PageControlFields" IsPage="false">
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Description" Description="说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="FieldType" Description="控件类型" Data="Enum:XiaoFeng.Mvc.FieldType#Description,key" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Align="center" />
+      <Field Name="DefaultValue" Description="默认值" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Placeholder" Description="显示值" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Must" Description="是否必填" FieldType="label" Must="false" Data="必填$true|非必填$false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Align="center" />
+      <Field Name="Visible" Description="是否显示" FieldType="label" Must="false" Data="显示$true|隐藏$false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Align="center" />
+      <Field Name="Tips" Description="注释说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-danger" lay-event="deletes" lay-submit="true" Url="DeleteFieldsList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]>
+    </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="add" lay-submit="true" Url="FieldsListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe654;</i>添加]]>
+      </Button>
+    </Buttons>
+    <Menus Width="80">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs" lay-event="edit" lay-submit="true" Url="FieldsListEdit" Title="编辑" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe642;</i>]]>
+       </Button>
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" lay-event="delete" lay-submit="true" Url="DeleteFieldsList" Title="删除" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>]]>
+      </Button>
+    </Menus>
+  </Page>
+  <Page Name="TabsList" DataName="FayElf.Cube.Admin" Description="选项卡列表" PageType="List" PageUrl="/Admin/PageSet/PageControlTabs" IsPage="false">
+    <LayScript>
+      <![CDATA[
+      if(event == 'setattr'){
+        var url = ZW.CMS.Common.GetUrl(Path, ConfigUrl["setattr"].Url);
+        url = url + Querys + (Querys == '?' ? '' : '&') + "iframe=1";
+        layer.open({
+            title: '设置Tab属性',
+            type: 2,
+            area: [ZW.CMS.Common.IsMobilePhone() ? '100%' : '617px', '400px'],
+            fixed: true,
+            maxmin: true,
+            scroll: false,
+            content: url
+        });
+      }
+      ]]>
+    </LayScript>
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Description" Description="说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Index" Description="索引" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Visible" Description="是否显示" FieldType="label" Data="[.zw-tag-success:]$true|[.zw-tag-error:]$false" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Class" Description="样式" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-danger" lay-event="deletes" lay-submit="true" Url="DeleteTabsList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="add" lay-submit="true" Url="TabsListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe654;</i>添加]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="setattr" lay-submit="true" Url="SetTabsAttribute" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe614;</i>设置属性]]>
+      </Button>
+    </Buttons>
+    <Menus Width="85">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs" lay-event="edit" lay-submit="true" Title="编辑" Url="TabsListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe642;</i>]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" lay-event="delete" lay-submit="true" Title="删除" Url="DeleteTabsList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>]]>
+      </Button>
+    </Menus>
+  </Page>
+  <Page Name="QuerysList" DataName="FayElf.Cube.Admin" Description="参数列表" PageType="List" PageUrl="/Admin/PageSet/PageControlQuerys" IsPage="false">
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Description" Description="说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="FieldType" Description="类型" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Format" Description="SQL格式" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="DefaultValue" Description="默认值" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Must" Description="是否必填" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-danger" lay-event="deletes" lay-submit="true" Utl="DeleteQuerysList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="add" lay-submit="true" Url="QuerysListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe654;</i>添加]]>
+      </Button>
+    </Buttons>
+    <Menus Width="85">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs" lay-event="edit" lay-submit="true" Title="编辑" Url="QuerysListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe642;</i>]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" lay-event="delete" lay-submit="true" Title="删除" Url="DeleteQuerysList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>]]>
+      </Button>
+    </Menus>
+  </Page>
+  <Page Name="ButtonsList" DataName="FayElf.Cube.Admin" Description="按扭列表" PageType="List" PageUrl="/Admin/PageSet/PageControlButtons" IsPage="false">
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Description" Description="说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="AuthID" Description="权限ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="ButtonType" Description="类型" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Event" Description="按扭事件" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Class" Description="样式" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-danger" lay-event="deletes" lay-submit="true" Url="DeleteButtonsList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="add" lay-submit="true" Url="ButtonsListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe654;</i>添加]]>
+      </Button>
+    </Buttons>
+    <Menus Width="85">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs" lay-event="edit" lay-submit="true" Title="编辑" Url="ButtonsListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe642;</i>]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" lay-event="delete" lay-submit="true" Title="删除" Url="DeleteButtonsList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>]]>
+      </Button>
+    </Menus>
+  </Page>
+  <Page Name="MenusList" DataName="FayElf.Cube.Admin" Description="菜单列表" PageType="List" PageUrl="/Admin/PageSet/PageControlMenus" IsPage="false">
+    <LayScript>
+      <![CDATA[
+        if(event == 'setwidth'){
+          layer.open({
+                title: '更新菜单宽',
+                type: 2,
+                area: [ZW.CMS.Common.IsMobilePhone() ? '100%' : '450px', '200px'],
+                fixed: true,
+                maxmin: true,
+                scroll: false,
+                content: '/Admin/PageSet/SetMenuWidth' + Querys + "&iframe=1"
+            });
+        }
+      ]]>
+    </LayScript>
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Description" Description="说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="AuthID" Description="权限ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="ButtonType" Description="类型" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Event" Description="按扭事件" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Class" Description="样式" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-danger" lay-event="deletes" lay-submit="true" Url="DeleteMenusList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="add" lay-submit="true" Url="MenusListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe654;</i>添加]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="" lay-event="setwidth" lay-submit="true" Url="MenusListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe614;</i>设置宽]]>
+      </Button>
+    </Buttons>
+    <Menus Width="85">
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs" lay-event="edit" lay-submit="true" Title="编辑" Url="MenusListEdit" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe642;</i>]]>
+      </Button>
+      <Button ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" lay-event="delete" lay-submit="true" Title="删除" Url="DeleteMenusList" Visible="true">
+        <![CDATA[<i class="layui-icon">&#xe640;</i>]]>
+      </Button>
+    </Menus>
+  </Page>
+  <Page Name="SetMenuWidth" DataName="FayElf.Cube.Admin" Description="设置菜单宽" PageType="Update">
+    <Fields>
+      <Field Name="Width" Description="宽" FieldType="text" Must="true" Visible="true" Disabled="true"/>
+    </Fields>
+  </Page>
+  <Page Name="SetTabsAttribute" DataName="FayElf.Cube.Admin" Description="设置Tab属性" PageType="Update">
+    <Fields>
+      <Field Name="TabType" Description="选项卡类型" FieldType="select" Data="ENUM:XiaoFeng.Mvc.TabType#Description,value" DefaultValue="DbNull" Visible="true" Disabled="true"/>
+      <Field Name="Class" Description="样式类" FieldType="text" Visible="true" Disabled="true"/>
+      <Field Name="ActiveClass" Description="激活样式类" FieldType="text" Visible="true" Disabled="true"/>
+      <Field Name="EventType" Description="事件类型" FieldType="select" Data="ENUM:XiaoFeng.Mvc.EventType#Description,value" DefaultValue="DbNull" Visible="true" Disabled="true" />
+      <Field Name="CallBack" Description="回调事件" FieldType="text" Visible="true" Disabled="true" />
+    </Fields>
+  </Page>
+  <Page Name="Field" DataName="FayElf.Cube.Admin" Description="列" PageType="Update" PageUrl="FieldUpdate">
+    <Script>
+      <![CDATA[
+      var FieldTypeChange = function(e){
+        SelectChangeValue(e.elem.value);
+      }
+      var SelectChangeValue = function(val){
+        var $ = layui.$;
+		console.log(val);
+        if(val=='label'){ 
+          $('#Placeholder,#Pattern,#MinLength,#MaxLength,#Format,#Encrypt,#ValueFormat,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+          $('#Data,#Link').parents('.layui-form-item').removeClass('zw-dpn');
+        }else if(val=='select' || val=='searchselect'|| val=='selects'|| val=='city'){
+          $('#FirstOption,#Data').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#Placeholder,#Pattern,#MinLength,#MaxLength,#Format,#Link,#ValueFormat,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='text' || val=='password' || val=='textarea'|| val=='checkcode'){
+          $('#Placeholder,#Pattern,#MinLength,#MaxLength,#Format,#ValueFormat').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Link,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+          if(val == 'password')$('#PassWordType').parents('.layui-form-item').removeClass('zw-dpn');
+        }else if(val=='editor' || val=='code' || val=='editor' || val=='image'){
+          $('#Width,#Height').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Link,#MinLength,#MaxLength,#Format,#Placeholder,#ValueFormat,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='hidden'|| val=='checkbox'||val=='checkbox1'||val=='checkbox2' || val=='radio'|| val=='file'|| val=='files' || val=='page' || val=='map' || val=='pointmap'|| val=='groups'){
+          $('#FirstOption,#Placeholder,#Pattern,#MinLength,#MaxLength,#Format,#Width,#Height,#Link,#ValueFormat,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+          $("#Data").parents('.layui-form-item').removeClass('zw-dpn');
+        }else if(val=='time' || val=='date'|| val=='dates'||val=='datetime'){
+          $('#Placeholder').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Pattern,#MinLength,#MaxLength,#Format,#ValueFormat,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='slider' || val=='textslider'){
+          $('#Width,#Height').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Pattern,#Format,#ValueFormat,#Placeholder,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val == 'hr'){
+          $('#FirstOption,#Data,#Pattern,#MinLength,#MaxLength,#Format,#Link,#ValueFormat,#Placeholder,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+        }else{
+          $('.layui-form-item').removeAttr('zw-dpn');
+        }
+      }
+      var ChangeValue = function(e){
+        var $ = layui.$;
+        var val = e.delegateTarget.value;
+        if(val !='' && $("#LayFilter").val() == '')$("#LayFilter").val(val);
+      }
+      var ValueFormatBack = function(e){
+        var $ = layui.$;
+        var val = e.delegateTarget.value;
+        if(val.length == 0)return;
+        if(/^(Date|Guid|Substring|PadLeft|PadRight):[\s\S]+$/gi.test(val)){
+          
+        }else{
+          layer.alert('输入的值格式不正确.',{icon:2},function(e){
+            $('#ValueFormat').focus();
+            layer.close(e);
+          });
+        }
+      }
+      ]]>
+    </Script>
+    <LayScript>
+      <![CDATA[
+      $(function(){
+        SelectChangeValue($("#FieldType").val());
+      });
+      ]]>
+    </LayScript>
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="blur" CallBack="ChangeValue" />
+      <Field Name="Description" Description="说明" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="FieldType" Description="控件类型" FieldType="searchselect" DefaultValue="label" Data="Enum:XiaoFeng.Mvc.FieldType#Description,key" Must="true" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="change" CallBack="FieldTypeChange" lay-filter="FieldType" InLine="true" />
+      <Field Name="DefaultValue" Description="默认值" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" />
+      <Field Name="PassWordType" Description="密码框类型" FieldType="select" DefaultValue="DbNull" Data="Enum:XiaoFeng.Mvc.PassWordType#Description,key" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" />
+      <Field Name="InLine" Description="排版" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="另起一行|同一行" />
+      <Field Name="Data" Description="数据" FieldType="textarea" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Tips="注:如,列表字段处理 function(e){return e['a'];}\n下拉框数据 是$1|否$0 \n其它格式 \nEnum:XiaoFeng.Mvc.EventType#Description,Value \nDatabase: \nModel:XiaoFeng.Config.Settting \nUrl:/Admin/Data/Json \nSQL:select key,value from TableName#FayElf.Cube.CMS" />
+      <Field Name="FirstOption" Description="默认选项" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Placeholder" Description="Placeholder" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Must" Description="是否必填" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" Data="ON|OFF" />
+      <Field Name="Tips" Description="注释说明" FieldType="textarea" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Pattern" Description="值验证模式" FieldType="textarea" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Class" Description="css 类" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Style" Description="css 样式" FieldType="textarea" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="MinLength" Description="最小长度" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="-1" InLine="true" />
+      <Field Name="MaxLength" Description="最大长度" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="-1" InLine="true" />
+      <Field Name="Width" Description="宽" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="0" InLine="true" Unit="" Tips="" />
+      <Field Name="Height" Description="高" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="0" InLine="true" />
+      <Field Name="MinWidth" Description="最小宽" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="0" InLine="true" Unit="" Tips="" />
+      <Field Name="Visible" Description="是否显示" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="显示|隐藏" />
+      <Field Name="Disabled" Description="是否可用" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="可用|不可用" />
+      <Field Name="Format" Description="SQL格式" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="ValueFormat" Description="值格式" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Placeholder="" Tips="注:值格式为 Date:yyyy-MM-dd HH:mm:ss,Guid:N,Substring:6,PadLeft:5,a,PadRight:5,a" Event="blur" CallBack="ValueFormatBack"/>
+      <Field Name="Link" Description="链接" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="FixedValue" Description="固定值" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Condition" Description="条件" FieldType="textarea" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="LayFilter" Description="过滤器值" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Align" Description="布局" FieldType="select" Data="居左$left|居中$center|居右$right" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" DefaultValue="left" />
+      <Field Name="Encrypt" Description="值加密" FieldType="select" Data="不加密$0|可逆加密$1|不可逆加密$2" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" DefaultValue="0" />
+      <Field Name="TabName" Description="Tab名称" FieldType="select" Data="PageConfig:{Query.TypeName}/Pages/Page[@Name='{Query.PageName}']/Tabs/Tab#Description,Name" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" />
+      <Field Name="Event" Description="事件类型" FieldType="select" Must="true" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Data="ENUM:XiaoFeng.Mvc.EventType#Description,key" Event="change" CallBack="if(e.elem.value!='DbNull')$('#CallBack').parents('.layui-form-item').show();else $('#CallBack').parents('.layui-form-item').hide();" InLine="true" DefaultValue="DbNull" />
+      <Field Name="CallBack" Description="回调方法" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" />
+      <Field Name="Sort" Description="是否排序" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="ON|OFF" />
+      <Field Name="Resize" Description="是否拖动" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="ON|OFF" />
+    </Fields>
+  </Page>
+  <Page Name="Query" DataName="FayElf.Cube.Admin" Description="参数" PageType="Update" PageUrl="QueryUpdate">
+    <Script>
+      <![CDATA[
+      var FieldTypeChange = function(e){
+        SelectChangeValue(e.elem.value);
+      }
+      var SelectChangeValue = function(val){
+        var $ = layui.$;
+        if(val=='label'){ 
+          $('#Placeholder,#Pattern,#MinLength,#MaxLength,#Format,#Encrypt').parents('.layui-form-item').addClass('zw-dpn');
+          $('#Data,#Link').parents('.layui-form-item').removeClass('zw-dpn');
+        }else if(val=='select' || val=='searchselect'|| val=='selects'|| val=='city'){
+          $('#FirstOption,#Format,#Data').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#Placeholder,#Pattern,#MinLength,#MaxLength,#Link').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='text' || val=='password' || val=='textarea'|| val=='checkcode'){
+          $('#Placeholder,#Pattern,#MinLength,#MaxLength,#Format').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Link').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='editor' || val=='code' || val=='editor'){
+          $('#Width,#Height').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Link,#MinLength,#MaxLength,#Placeholder,#Format').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='hidden'|| val=='checkbox'||val=='checkbox1'||val=='checkbox2' || val=='radio'|| val=='file'|| val=='files' || val=='page' || val=='map' || val=='pointmap'|| val=='groups'){
+          $('#Format').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Placeholder,#Pattern,#MinLength,#MaxLength,#Width,#Height,#Link').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='time' || val=='date'|| val=='dates'||val=='datetime'){
+          $('#Placeholder,#Format').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Pattern,#MinLength,#MaxLength').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val=='slider' || val=='textslider'){
+          $('#Width,#Height').parents('.layui-form-item').removeClass('zw-dpn');
+          $('#FirstOption,#Data,#Pattern,#Format,#ValueFormat,#Placeholder').parents('.layui-form-item').addClass('zw-dpn');
+        }else if(val == 'hr'){
+          $('#FirstOption,#Data,#Pattern,#MinLength,#MaxLength,#Format,#Link,#ValueFormat,#Placeholder,#PassWordType').parents('.layui-form-item').addClass('zw-dpn');
+        }else{
+          $('.layui-form-item').removeAttr('zw-dpn');
+        }
+      }
+      var ChangeValue = function(e){
+        var $ = layui.$;
+        var val = e.delegateTarget.value;
+        if(val!='' && $("#LayFilter").val()=='')$("#LayFilter").val(val);
+      }
+      var ValueFormatBack = function(e){
+        var $ = layui.$;
+        var val = e.delegateTarget.value;
+        if(val.length == 0)return;
+        if(/^(Date|Guid|Substring|PadLeft|PadRight):[\s\S]+$/gi.test(val)){
+          
+        }else{
+          layer.alert('输入的值格式不正确.',{icon:2},function(e){
+            $('#ValueFormat').focus();
+            layer.close(e);
+          });
+        }
+      }
+      ]]>
+    </Script>
+    <LayScript>
+      <![CDATA[
+      $(function(){
+        SelectChangeValue($("#FieldType").val());
+      });
+      ]]>
+    </LayScript>
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="blur" CallBack="ChangeValue" />
+      <Field Name="Description" Description="说明" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="FieldType" Description="控件类型" FieldType="searchselect" DefaultValue="label" Data="Enum:XiaoFeng.Mvc.FieldType#Description,key" Must="true" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="change" CallBack="FieldTypeChange" lay-filter="FieldType" InLine="true" />
+      <Field Name="DefaultValue" Description="默认值" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" />
+      <Field Name="InLine" Description="排版" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="另起一行|同一行" />
+      <Field Name="Data" Description="数据" FieldType="textarea" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="FirstOption" Description="默认选项" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Placeholder" Description="Placeholder" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Must" Description="是否必填" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" Data="ON|OFF" />
+      <Field Name="Tips" Description="注释说明" FieldType="textarea" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Pattern" Description="值验证模式" FieldType="textarea" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Class" Description="css 类" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Style" Description="css 样式" FieldType="textarea" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="MinLength" Description="最小长度" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="-1" InLine="true" />
+      <Field Name="MaxLength" Description="最大长度" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="-1" InLine="true" />
+      <Field Name="Width" Description="宽" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="0" InLine="true" Unit="" Tips="" />
+      <Field Name="Height" Description="高" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" DefaultValue="0" InLine="true" />
+      <Field Name="Visible" Description="是否显示" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="显示|隐藏" />
+      <Field Name="Disabled" Description="是否可用" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="可用|不可用" />
+      <Field Name="Format" Description="SQL格式" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="ValueFormat" Description="值格式" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Tips="注:值格式为 Date:yyyy-MM-dd HH:mm:ss,Guid:N,Substring:6,PadLeft:5,a,PadRight:5,a" Event="blur" CallBack="ValueFormatBack" />
+      <Field Name="Link" Description="链接" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Align" Description="布局" FieldType="select" Data="居左$left|居中$center|居右$right" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" DefaultValue="left" />
+      <Field Name="Encrypt" Description="值加密" FieldType="select" Data="不加密$0|可逆加密$1|不可逆加密$2" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="false" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" DefaultValue="0" />
+      <Field Name="TabName" Description="Tab名称" FieldType="select" Data="PageConfig:{Query.TypeName}/Pages/Page[@Name='{Query.PageName}']/Tabs/Tab#Description,Name" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" />
+      <Field Name="Event" Description="事件类型" FieldType="select" Must="true" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Data="ENUM:XiaoFeng.Mvc.EventType#Description,key" Event="change" CallBack="if(e.elem.value!='DbNull')$('#CallBack').parents('.layui-form-item').show();else $('#CallBack').parents('.layui-form-item').hide();" DefaultValue="DbNull" />
+      <Field Name="CallBack" Description="回调方法" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="LayFilter" Description="过滤器值" FieldType="text" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="Sort" Description="是否排序" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" InLine="true" Data="ON|OFF" />
+      <Field Name="Resize" Description="是否拖动" FieldType="checkbox1" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" InLine="true" Data="ON|OFF" />
+    </Fields>
+  </Page>
+  <Page Name="Button" DataName="FayElf.Cube.CMS" Description="按扭" PageType="Update" PageUrl="ButtonUpdate">
+    <Script>
+      <![CDATA[
+      var ChangeValue = function(e){
+        var $ = layui.$;
+        var val = e.delegateTarget.value;
+        if(val != '' && $("#LayFilter").val() == '')$("#LayFilter").val(val);
+      }
+      var ChangeType = function(e){
+      console.log(e);
+        var $ = layui.$;
+        var val = e.value;
+        if(val == 'Open'){
+          $('#WindowWidth,#WindowHeight').parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $('#WindowWidth,#WindowHeight').parents('.layui-form-item').addClass('zw-dpn');
+        }
+      }
+      ]]>
+    </Script>
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="text" Must="true" Event="blur" CallBack="ChangeValue" Visible="true" Disabled="true"/>
+      <Field Name="Description" Description="说明" FieldType="textarea" Must="true" Visible="true" Disabled="true"/>
+      <Field Name="Value" Description="按扭文字" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="Placeholder" Description="提示" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="Content" Description="内容" FieldType="textarea" Visible="true" Disabled="true"/>
+      <Field Name="ButtonType" Description="按扭类型" FieldType="select" Data="Enum:XiaoFeng.Mvc.ButtonType#Description,value" InLine="true" DefaultValue="button" Visible="true" Disabled="true"/>
+      <Field Name="Event" Description="按扭事件" FieldType="select" Data="Enum:XiaoFeng.Mvc.EventType#Description,value" InLine="true" DefaultValue="DbNull" Visible="true" Disabled="true"/>
+      <Field Name="Class" Description="css类" FieldType="text" Visible="true" Disabled="true"/>
+      <Field Name="Style" Description="css样式" FieldType="textarea" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="LayEvent" Description="lay-event" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="LayFilter" Description="lay-filter" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="LaySubmit" Description="是否是提交" FieldType="checkbox" DefaultValue="true" Visible="true" Disabled="true"/>
+      <Field Name="WindowType" Description="提交窗口类型" FieldType="select" Data="ENUM:XiaoFeng.Mvc.WindowType#Description,value" DefaultValue="Null" Event="change" CallBack="ChangeType" Visible="true" Disabled="true"/>
+      <Field Name="WindowWidth" Description="窗口宽" FieldType="text" DefaultValue="0" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="WindowHeight" Description="窗口高" FieldType="text" DefaultValue="0" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="Visible" Description="显示状态" FieldType="checkbox1" Data="显示|隐藏" DefaultValue="true" Visible="true" Disabled="true"/>
+    </Fields>
+  </Page>
+  <Page Name="Menu" DataName="FayElf.Cube.CMS" Description="按扭" PageType="Update" PageUrl="MenuUpdate">
+    <Script>
+      <![CDATA[
+      var ChangeValue = function(e){
+        var $ = layui.$;
+        var val = e.delegateTarget.value;
+        if(val != '' && $("#LayFilter").val() == '')$("#LayFilter").val(val);
+      }
+      var ChangeType = function(e){
+      console.log(e);
+        var $ = layui.$;
+        var val = e.value;
+        if(val == 'Open'){
+          $('#WindowWidth,#WindowHeight').parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $('#WindowWidth,#WindowHeight').parents('.layui-form-item').addClass('zw-dpn');
+        }
+      }
+      ]]>
+    </Script>
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="text" Must="true" Event="blur" CallBack="ChangeValue" Visible="true" Disabled="true"/>
+      <Field Name="Description" Description="说明" FieldType="textarea" Must="true" Visible="true" Disabled="true"/>
+      <Field Name="Value" Description="按扭文字" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="Placeholder" Description="提示" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="Content" Description="内容" FieldType="textarea" Visible="true" Disabled="true"/>
+      <Field Name="ButtonType" Description="按扭类型" FieldType="select" Data="Enum:XiaoFeng.Mvc.ButtonType#Description,value" InLine="true" DefaultValue="button" Visible="true" Disabled="true"/>
+      <Field Name="Event" Description="按扭事件" FieldType="select" Data="Enum:XiaoFeng.Mvc.EventType#Description,value" InLine="true" DefaultValue="DbNull" Visible="true" Disabled="true"/>
+      <Field Name="Class" Description="css类" FieldType="text" Visible="true" Disabled="true"/>
+      <Field Name="Style" Description="css样式" FieldType="textarea" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" Height="0" Visible="true" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" />
+      <Field Name="LayEvent" Description="lay-event" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="LayFilter" Description="lay-filter" FieldType="text" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="LaySubmit" Description="是否是提交" FieldType="checkbox" DefaultValue="true" Visible="true" Disabled="true"/>
+      <Field Name="WindowType" Description="提交窗口类型" FieldType="select" Data="ENUM:XiaoFeng.Mvc.WindowType#Description,value" Event="change" CallBack="ChangeType" DefaultValue="Null" Visible="true" Disabled="true"/>
+      <Field Name="WindowWidth" Description="窗口宽" FieldType="text" DefaultValue="0" InLine="true" Visible="true" Disabled="true"/>
+      <Field Name="WindowHeight" Description="窗口高" FieldType="text" DefaultValue="0" InLine="true" Visible="true" Disabled="true"/>
+    </Fields>
+  </Page>
+  <Page Name="Tab" DataName="FayElf.Cube.CMS" Description="Tab" PageType="Update" PageUrl="TabUpdate">
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="text" Must="true" Visible="true" Disabled="true"/>
+      <Field Name="Description" Description="说明" FieldType="textarea" Must="true" Visible="true" Disabled="true"/>
+      <Field Name="Class" Description="css类" FieldType="text" Visible="true" Disabled="true"/>
+      <Field Name="Style" Description="css样式" FieldType="textarea" Visible="true" Disabled="true"/>
+      <Field Name="Index" Description="索引" FieldType="text" DefaultValue="1" Visible="true" Disabled="true"/>
+      <Field Name="Visible" Description="是否显示" FieldType="checkbox" Checked="true" DefaultValue="true" Visible="true" Disabled="true"/>
+    </Fields>
+  </Page>
+</Pages>

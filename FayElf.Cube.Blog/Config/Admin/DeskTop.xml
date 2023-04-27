@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages DataName="FayElf.Cube.Admin" TypeName="XiaoFeng.Mvc.Model.Admin.ZWTbDesktopModel, XiaoFeng.Mvc">
+  <Page Name="List" DataName="FayElf.Cube.Admin" Description="快捷图标列表" PageType="List" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbDesktopModel, XiaoFeng.Mvc" SqlOrder="AddDate desc" IsPage="true" IsToolBar="true" IsBox="true" IsNum="false" PageSize="20" PrimaryKey="ID" ParentID="ParentID" IconIndex="2" CellEditCallBack="EditCell" ListType="TreeList">
+	  <Script>
+		  <![CDATA[
+     var SetPass = function(o,data,json){
+     var $ = layui.$,layer = layui.layer;
+      var elem = data.elem;
+      var ID = json["ID"];
+      $.ajax({
+        type:'POST',
+        data:{ID:ID,Pass:elem.checked},
+        url:'/'+ AdminAreaName +'/Desktop/SetPass',
+        success:function(e){
+          if(e.status == 'success'){
+            layer.alert('操作成功.',{icon:1});
+          }else
+            layer.alert('操作失败['+e.message+'].',{icon:2});
+        },
+        error:function(){
+          layer.alert('服务器出错.',{icon:2});
+        }
+      });
+     }
+	 var EditCell = function(e){
+          if(e.value == '' || e.value == e.data[e.field]){
+            return;
+          }
+           ZW.CMS.SetFieldData(AdminAreaName +'/Desktop',{WhereName:'ID',WhereValue:e.data["ID"],FieldName:e.field,FieldValue:e.value});
+        }
+    ]]>
+	  </Script>
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields>
+      <Field Name="ID" Description="ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+		<Field Name="ParentID" Description="父节点ID" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+		<Field Name="ParentName" Description="父菜单" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="120" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+		<Field Name="Icon" Description="样式图标" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="80" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+		<Field Name="ImageUrl" Description="图片图标" FieldType="image" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="120" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Class" Description="样式名" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Url" Description="网址" FieldType="labeltext" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="SortID" Description="排序" FieldType="labeltext" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="80" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Type" Description="类型" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Pass" Description="状态" FieldType="checkbox1" Data="显示|隐藏" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="100" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" CallBack="SetPass" />
+      <Field Name="AddDate" Description="添加时间" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="145" MinWidth="0" Height="0" Visible="true" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="AddTimestamp" Description="AddTimestamp" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+    </Fields>
+    <Buttons Width="0">
+		<Button Name="CloseAll" Description="全部折叠" ButtonType="button" Event="DbNull" Class="" Title="全部折叠" lay-event="FoldAll" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="zw-icon">&#xe141;</i>全部折叠]]></Button>
+		<Button Name="OpenAll" Description="全部展开" ButtonType="button" Event="DbNull" Class="" Title="全部展开" lay-event="ExpandAll" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="zw-icon">&#xe142;</i>全部展开]]></Button>
+      <Button Name="Deletes" AuthID="3" Description="批量删除" ButtonType="button" Event="DbNull" Class="layui-btn-danger" Title="批量删除" lay-event="deletes" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]></Button>
+      <Button Name="Add" AuthID="1" Description="添加" ButtonType="button" Event="DbNull" Title="添加" lay-event="add" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe654;</i>添加]]></Button>
+    </Buttons>
+    <Menus Width="135">
+		<Button Name="AddChild" Description="添加" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="添加" lay-event="addchild" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="1" Visible="true"><![CDATA[<i class="layui-icon">&#xe654;</i>]]></Button>
+      <Button Name="Detail" AuthID="4" Description="详情" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="详情" lay-event="detail" lay-submit="false" win-type="Null" win-width="650" win-height="500" Visible="true"><![CDATA[<i class="layui-icon">&#xe65f;</i>]]></Button>
+      <Button Name="Edit" AuthID="2" Description="编辑" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="编辑" lay-event="edit" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe642;</i>]]></Button>
+      <Button Name="Delete" AuthID="3" Description="删除" ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" Title="删除" lay-event="delete" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>]]></Button>
+    </Menus>
+    <Querys>
+      <Query Name="key" Description="关键词" FieldType="text" Placeholder="请输入关键词" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" MinWidth="0" Height="0" Visible="true" Format="(Name like '%{0}%')" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="false" Event="DbNull" lay-filter="key" InLine="false" PassWordType="DbNull" IsField="true" />
+    </Querys>
+  </Page>
+  <Page Name="Delete" DataName="FayElf.Cube.Admin" Description="删除快捷图标" PageType="Delete" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbDesktopModel, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20" PrimaryKey="ID" ListType="List" IconIndex="2">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields />
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+  <Page Name="Edit" DataName="FayElf.Cube.Admin" Description="编辑快捷图标" PageType="Update" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbDesktopModel, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20" PrimaryKey="ID" ListType="List" IconIndex="2">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="text" Placeholder="请输入名称" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+		<Field Name="ParentID" Description="父节点" FirstOption="{text:'顶级菜单',value:0},{text:'请选择',value:''}" FieldType="selects" Data="/{Set:AdminAreaName}/Menu/Get/0?Pass=1" DefaultValue="{Query:ID}" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="ParentID" InLine="false" PassWordType="DbNull" />
+		<Field Name="Type" Description="类型" FirstOption="false" FieldType="select" Data="图标$1|分组$0" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+		<Field Name="Icon" Description="样式图标" FieldType="icons" Placeholder="Icon" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+		<Field Name="ImageUrl" Description="图片图标" FieldType="file" Placeholder="" Must="false" format="Image" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Class" Description="样式名称" FieldType="text" Placeholder="请输入样式名称" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Url" Description="网址" FieldType="text" Placeholder="请输入网址" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Style" Description="样式" FieldType="textarea" Placeholder="请输入样式" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+		<Field Name="SortID" Description="排序" FieldType="text" Data="" DefaultValue="100000" Placeholder="数字越小越靠前" Must="true" Pattern="\d+" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="var val = $(this).val();if(val.length&gt;8)val=val.substring(0,8);$(this).val(val.replace(/[\D]+/,''));" Resize="true" Event="keyup" lay-filter="SortID" InLine="true" PassWordType="DbNull" />
+      <Field Name="Pass" Description="状态" FieldType="checkbox1" Data="显示|隐藏" DefaultValue="true" Placeholder="Pass" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="true" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+    </Fields>
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+  <Page Name="Detail" DataName="FayElf.Cube.Admin" Description="快捷图标详情" PageType="Detail" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbDesktopModel, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="10" PrimaryKey="ID" ListType="List" IconIndex="2">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields>
+      <Field Name="ID" Description="ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Icon" Description="图标" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+      <Field Name="Type" Description="类型" Data="图标$1|分组$0" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+      <Field Name="Class" Description="类样式" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+      <Field Name="Style" Description="样式" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+      <Field Name="Url" Description="地址" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Lock" Description="锁定状态" Data="锁定$true|正常$false" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+      <Field Name="Pass" Description="状态" Data="显示$true|隐藏$false" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+      <Field Name="SortID" Description="排序" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+      <Field Name="AddDate" Description="添加时间" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" IsField="true" />
+    </Fields>
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+</Pages>

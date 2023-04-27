@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Description="数据库页配置">
+	<Page Name="DataBaseSet" DataName="www.zhuovi.com" Description="数据库列表" PageType="List" ModelType="XiaoFeng.Data.SQL.ConnectionConfig, XiaoFeng" IsPage="true" IsToolBar="true">
+		<Script>
+			<![CDATA[      
+		 var SetTransaction = function(o,data,json){
+		 ZW.CMS.SetFieldData(AdminAreaName +'/DataBaseSet',{WhereName:'ID',WhereValue:json["ID"],FieldName:'IsTransaction',FieldValue:data.elem.checked});
+		 return;
+		 }    
+		]]>
+		</Script>
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="Key" Description="key值" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Key" InLine="true" />
+			<Field Name="Index" Description="索引" FieldType="label" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="70" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="ProviderType" Description="驱动类型" FieldType="label" Data="Enum:XiaoFeng.Data.DbProviderType" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="100" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="ProviderType" InLine="true" />
+			<Field Name="IsTransaction" Description="事务" FieldType="checkbox1" Data="启用|禁用" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="90" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="SetTransaction" Resize="true" Event="DbNull" lay-filter="IsTransaction" InLine="true" />
+			<Field Name="CacheType" Description="缓存" FieldType="label" Data="ENUM:XiaoFeng.CacheType#Description,value" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="90" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="IsCache" InLine="true" />
+		</Fields>
+		<Buttons Width="0">
+			<Button Name="Add" Description="添加数据库" ButtonType="button" Event="DbNull" lay-event="add" lay-filter="Add" lay-submit="true" Value="添加" AuthID="1" Visible="true" win-width="620" win-height="550"><![CDATA[<i class="layui-icon">&#xe654;</i>添加]]></Button>
+		</Buttons>
+		<Menus Width="85">
+			<Button Name="edit" Description="编辑" ButtonType="button" Event="DbNull" Class="layui-btn-xs" lay-event="edit" lay-filter="edit" lay-submit="true" Value="编辑" Url="Add" AuthID="2" Visible="true" win-width="620" win-height="550"><![CDATA[<i class="layui-icon">&#xe642;</i>]]></Button>
+			<Button Name="delete" Description="删除" ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" lay-event="delete" lay-filter="delete" lay-submit="true" Value="删除" AuthID="3" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>]]></Button>
+		</Menus>
+	</Page>
+	<Page Name="Add" DataName="www.zhuovi.com" Description="添加数据库" PageType="Add" ModelType="XiaoFeng.Data.SQL.ConnectionConfig, XiaoFeng" IsPage="true" IsToolBar="true">
+		<Script>
+			<![CDATA[
+	 var ChangeValue = function(e){
+	    if(e.value == '2'){
+          $("#CachePath").parents(".layui-form-item").removeClass("zw-dpn");
+        }else{
+          $("#CachePath").parents(".layui-form-item").addClass("zw-dpn");
+        }
+      }
+	  var ChangeValue2 = function(e){
+        var $ = layui.$;
+        if(e.elem.checked){
+          $("#IsolationLevel").parents(".layui-form-item").removeClass("zw-dpn");
+        }else{
+          $("#IsolationLevel").parents(".layui-form-item").addClass("zw-dpn");
+        }
+      }
+      ]]>
+		</Script>
+		<LayScript>
+			<![CDATA[
+      $(function(){
+		if($("#IsTransaction").is(":checked")){
+          $("#IsolationLevel").parents(".layui-form-item").removeClass("zw-dpn");
+        }
+		console.log($("#CacheType").val());
+		if($("#CacheType").val() == '2'){
+			$("#CachePath").parents(".layui-form-item").removeClass("zw-dpn");
+		}
+      });
+      ]]>
+		</LayScript>
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="Key" Description="Key" FieldType="text" Data="" DefaultValue="" Placeholder="请输入数据库Key" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="Index" Description="索引" FieldType="text" Data="" DefaultValue="-1" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="ProviderType" Description="驱动类型" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.Data.DbProviderType#Description,value" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="ConnectionString" Description="连接字符串" FieldType="textarea" Data="" Placeholder="请输入数据库连接字符串" DefaultValue="" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="CommandTimeOut" Description="超时时间" FieldType="text" Data="" DefaultValue="300" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" Tips="注:0为默认" Unit="秒" />
+			<Field Name="IsTransaction" Description="事务" FieldType="checkbox1" Data="启用|关闭" DefaultValue="True" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeValue2(e);" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="IsolationLevel" Description="事务级别" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.Data.IsolationLevel#Description,value" DefaultValue="300" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" Tips="" Unit="" />
+			<Field FieldType="br"/>
+			<Field Name="CacheType" Description="缓存类型" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.CacheType#Description,value" DefaultValue="0" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeValue" Resize="true" Event="change" InLine="true"/>
+			<Field Name="CacheTimeOut" Description="缓存时长" FieldType="text" Data="" DefaultValue="0" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" Unit="秒" />
+			<Field Name="CachePath" Description="缓存目录" FieldType="text" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" Tips="注:仅缓存类型为磁盘时此项才生效" />
+		</Fields>
+	</Page>
+	<Page Name="Detail" DataName="www.zhuovi.com" Description="数据库详情" PageType="Detail" ModelType="XiaoFeng.Config.DataBase, XiaoFeng" IsPage="true" IsToolBar="true">
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="Data" Description="" FieldType="label" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="Item" Description="" FieldType="label" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="ConfigFileAttribute" Description="配置文件属性" FieldType="label" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="Item" Description="" FieldType="label" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+		</Fields>
+	</Page>
+</Pages>

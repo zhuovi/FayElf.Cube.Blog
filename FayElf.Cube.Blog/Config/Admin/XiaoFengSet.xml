@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Description="XiaoFeng设置页配置">
+	<Page Name="Edit" DataName="" Description="XiaoFeng配置" PageType="Add" ModelType="XiaoFeng.Config.Setting, XiaoFeng" IsPage="false" IsToolBar="false" PageSize="20">
+		<Script>
+			<![CDATA[
+        var ChangeIntercept = function(e){
+          var $ = layui.$;
+          if(!e.elem.checked)
+            $('#SQLInjection').parents('.layui-form-item').addClass('zw-dpn');
+          else
+            $('#SQLInjection').parents('.layui-form-item').removeClass('zw-dpn');
+        }
+		var ChangeDataEncrypt = function(e){
+          var $ = layui.$;
+          if(!e.elem.checked)
+            $('#DataKey').parents('.layui-form-item').addClass('zw-dpn');
+          else
+            $('#DataKey').parents('.layui-form-item').removeClass('zw-dpn');
+        }
+      ]]>
+		</Script>
+		<LoadScript>
+			<![CDATA[
+          if(!$('#IsIntercept').is(':checked'))
+            $('#SQLInjection').parents('.layui-form-item').addClass('zw-dpn');
+          else
+            $('#SQLInjection').parents('.layui-form-item').removeClass('zw-dpn');
+		  if(!$('#DataEncrypt').is(':checked'))
+            $('#DataKey').parents('.layui-form-item').addClass('zw-dpn');
+          else
+            $('#DataKey').parents('.layui-form-item').removeClass('zw-dpn');
+      ]]>
+		</LoadScript>
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="Debug" Description="启用调试" FieldType="checkbox1" Data="启用|关闭" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="ServerLogging" Description="请求日志" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="br1" FieldType="br"/>
+			<Field Name="DataEncrypt" Description="数据加密" FieldType="checkbox1" Data="启用|关闭" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeDataEncrypt" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="DataKey" Description="加密Key" FieldType="text" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="210" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" />
+			<Field Name="CachePath" Description="缓存目录" FieldType="text" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="210" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+			<Field Name="IsIntercept" Description="注入拦截" FieldType="checkbox1" Data="启用|关闭" DefaultValue="true" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeIntercept" Resize="true" Event="change" InLine="false" />
+			<Field Name="SQLInjection" Description="注入特征" FieldType="textarea" Data="" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" />
+		</Fields>
+	</Page>
+</Pages>

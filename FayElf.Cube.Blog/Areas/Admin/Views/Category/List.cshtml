@@ -1,0 +1,349 @@
+﻿@model Page;
+@{
+    var PageData = new PageData(ViewData, Model);
+    var PageName = PageData.Page?.Name;
+    /*设置参数*/
+    var Querys = HttpContext.Current.Request.QueryString.Value;
+    Querys = (Querys.IsNullOrEmpty() ? "?" : "") + Querys;
+    var tableToolBar = "";
+
+    if (PageData.IsAuth("11")) { tableToolBar += ",'filter'"; }
+    if (PageData.IsAuth("10")) { tableToolBar += ",'print'"; }
+    if (PageData.IsAuth("12")) { tableToolBar += ",'exports'"; }
+
+    else
+    {
+        tableToolBar = ", 'filter', 'print', 'exports'";
+    }
+}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">@(PageData.Title.IsNullOrEmpty() ? PageData.Page.Description : PageData.Title)</div>
+                <div class="layui-card-body">
+                    @Html.Raw(PageData.Page?.HeadTemplate)
+                    @if (PageData.Page?.Querys?.Query?.Count > 0)
+                    {
+                        <div class="table-reload-btns layui-form layui-elem-quote searchs-@PageName" style="margin-bottom: 10px;">
+                            @foreach (var q in PageData.Page?.Querys?.Query.Where(a => a.AuthID.IsNullOrEmpty() || PageData == null || (PageData != null && PageData.IsAuth(a.AuthID))))
+                            {
+                                if (q.FieldType == FieldType.hr)
+                                {
+                                    <hr class="@q.Class" style="@q.Style" />
+                                }
+                                else
+                                {
+                                    <div class="layui-inline" style="margin:3px;">
+                                        <div class="layui-inline">@q.Description</div>
+                                        <div class="layui-inline">@Html.ForEditor(q)</div>
+                                    </div>
+                                }
+                            }
+                        <button class="layui-btn search" data-type="search"><i class="layui-icon">&#xe615;</i>@Translations.Get("admin:btnsearch")</button>
+                        </div>
+                    }
+                    <table class="layui-hide" id="table-data-@PageName" lay-filter="table-data-@PageName"></table>
+                    @Html.Raw(PageData.Page?.FootTemplate)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="table-toolbar-@PageName">
+    <div class="table-reload-btns">
+        @Html.ForButtons(PageData.Page?.Buttons, PageData)
+    </div>
+</script>
+<script type="text/html" id="table-tool-@PageName">
+    <div class="layui-btn-group">
+        @Html.ForButtons(PageData.Page?.Menus, PageData)
+    </div>
+</script>
+@Html.Raw(PageData.GetListTemplets())
+<script type="text/javascript">
+    layui.use(['table', 'laypage', 'laydate', 'element', 'select', 'city', 'form', 'rate', 'treetable','index'], function () {
+        var ConfigUrl = @Html.Raw(PageData.GetListConfigUrl());
+        var PageName = '@PageName';
+        var $ = layui.$
+            , table = layui.table
+            , laydate = layui.laydate
+            , element = layui.element
+            , form = layui.form
+            , select = layui.select
+            , city = layui.city
+            , treetable = layui.treetable;
+        var IsPage = @PageData.Page?.IsPage.ToString().ToLower();
+        var Querys = '@Html.Raw(Querys)';
+        var columns = [
+                @Html.Raw(PageData.GetListFields().Join("\r\n\t\t\t\t,"))
+        ];
+        if (/<button[^>]*?>[\s\S]*?<\/button>/g.test($('#table-toolbar-edit-' + PageName).innerText)) {
+            columns.splice(columns.length - 1, 1);
+        }
+        var where = {@Html.ForQuerys(PageData.Page.Querys)};
+        where["ConfigPageName"] = '@PageData?.Page?.Name';
+        //console.log(ConfigUrl)
+
+        treetable.render({
+            treeColIndex: 2,
+            treeSpid: 0,
+            treeIdName: 'ID',
+            treePidName: 'ParentID',
+            elem: '#table-data-' + PageName
+            , method: 'POST'
+            , limit: @PageData?.Page?.PageSize
+            , url:(hasOwnPropertyIgnoreCase(ConfigUrl, "PageUrl") ? GetValue(ConfigUrl, 'PageUrl').Url : '@(PageData.Path)Json') + (Querys == '?' ? '' : Querys)
+            , where: where
+            , toolbar: '#table-toolbar-' + PageName
+            , title: '@PageData.Title'
+            , loading: true
+            , cols: [columns]
+            , headers: { 'cms': 'fayelf' }
+            , done: function (e) {
+                @Html.Raw(PageData.GetListLoadScript())
+                ZW.CMS.Common.SetTips();
+            }
+            , skin: 'row'
+            , even: true
+            , page: IsPage
+            , size: '',
+            text: {
+                none: '@Translations.Get("admin:nodata")!'
+            },
+            defaultToolbar: [{
+                title: '@Translations.Get("admin:refresh")'
+                , layEvent: 'LAYTABLE_RELOAD'
+                , icon: 'layui-icon layui-icon-refresh-3'
+            }@Html.Raw(tableToolBar)]
+        });
+
+
+        table.on('sort(table-data-' + PageName + ')', function (obj) {
+            console.log(obj);
+            table.reload('table-data-' + PageName, {
+                initSort: obj,
+                where: { orderfield: obj.field, ordertype: obj.type }
+            });
+        });
+        table.on('tool(table-data-' + PageName + ')', function (e) {
+            FunEvent("tool", e);
+        });
+        table.on('toolbar(table-data-' + PageName + ')', function (e) {
+            FunEvent("toolbar", e);
+        });
+        table.on('mouseRightMenu(table-data-' + PageName + ')', function (e) {
+            console.log(e);
+            var ev = {
+                x: (TableRowEvent.pageX || 0), y: (TableRowEvent.pageY || 0)
+            };
+            console.log(e.data.ID);
+            window.RowDataJson = e;
+            var w = $(document.body);
+            var menu = $(".zw-rightmenu");
+            if (ev.x > w.width() - menu.width()) ev.x = ev.x - menu.width();
+            if (ev.y > w.height() - menu.height()) ev.y = ev.y - menu.height();
+            menu.css({ "left": ev.x, "top": ev.y }).show();
+        });
+        @Html.Raw(PageData.GetListTempletEvents())
+        var $ = layui.$,active = {
+            search: function () {
+                var where = { ConfigPageName: '@PageData?.Page?.Name' };
+                $(".searchs-" + PageName + " input[type='text'],.searchs-" + PageName + " select").each(function () {
+                    var name = $(this).attr("name");
+                    if (typeof name == 'undefined') return;
+                    var val = $(this).val();
+                    where[name] = val;
+                });
+                /*执行重载*/
+                table.reload('table-data-' + PageName, {
+                    page: {
+                        curr: 1
+                    }
+                    , where: where
+                });
+            }
+        };
+        $('.layui-date').each(function () {
+            var datetype = $(this).attr("datetype");
+            var config = { elem: this, trigger:'click' };
+            if (datetype == 'dates') config.range = true;
+            else config.type = datetype;
+            laydate.render(config);
+        });
+        $('.searchs-' + PageName + ' .search').on('click', function () {
+
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        var FunEvent = function (tag, e) {
+            var Path = '@PageData.Path';
+            var event = e.event.toLowerCase();
+            console.log(e);
+            var data = {};
+            if (tag == "tool") {
+                data = e.data;
+                var key = hasOwnPropertyIgnoreCase(data, "ID") ? 'ID' : 'Name';
+                switch (event) {
+                    case 'delete':
+                        layer.confirm('@Translations.Get("admin:confirmdeletecontent")', function (index) {
+                            var url = ZW.CMS.Common.GetUrl(Path, hasOwnPropertyIgnoreCase(ConfigUrl, "delete") ? GetValue(ConfigUrl,'delete').Url : 'Delete');
+                            $.ajax({
+                                method: "post",
+                                data: { ID: GetValue(data,key) },
+                                url: url + Querys,
+                                success: function (ex) {
+                                    if (ex.status == 'success') {
+                                        layer.alert("@Translations.Get("admin:successoperation")", { icon: 1 }, function (index) {
+                                            e.del();layer.close(index);
+                                        });
+                                    } else
+                                        layer.alert("@(Translations.Get("admin:failureoperation"))[" + ex.message + "].", function (index) { layer.close(index); })
+                                }
+                            });
+                            layer.close(index);
+                        });
+                        break;
+                    case 'edit':
+                        var url = ZW.CMS.Common.GetUrl(Path, hasOwnPropertyIgnoreCase(ConfigUrl, "edit") ? GetValue(ConfigUrl,'edit').Url : 'Edit');
+                        url = url + Querys + (Querys == '?' ? '' : '&') + 'ID=' + encodeURIComponent(GetValue(data, key)) + "&iframe=1";
+                        console.log(url);
+                        var width = '685', height = '450';
+                        if (hasOwnPropertyIgnoreCase(ConfigUrl, "edit")) {
+                            var d = GetValue(ConfigUrl, "edit");
+                            var winType = d.WindowType;
+                            if (winType == 'Tab') {
+                                ZW.CMS.TabAdd(data.Name + "@Translations.Get("admin:edit")", url);
+                                return;
+                            } else if (winType == 'Open') {
+                                width = d.WindowWidth == 0 ? width : d.WindowWidth;
+                                height = d.WindowHeight == 0 ? height : d.WindowHeight;
+                            }
+                        }
+                        layer.open({
+                            title: '@Translations.Get("admin:updatedata")',
+                            type: 2,
+                            area: [ZW.CMS.Common.IsMobilePhone() ? '100%' : width + 'px', height + 'px'],
+                            fixed: true,
+                            maxmin: true,
+                            scroll: false,
+                            content: url
+                        });
+                        break;
+                    case 'detail':
+                        var url = ZW.CMS.Common.GetUrl(Path, hasOwnPropertyIgnoreCase(ConfigUrl, "detail") ? GetValue(ConfigUrl,'detail').Url : 'Detail');
+                        url = url + Querys + (Querys == '?' ? '' : '&') + 'ID=' + encodeURIComponent(GetValue(data, key)) + "&iframe=1";
+                        var width = '685', height = '450';
+                        if (hasOwnPropertyIgnoreCase(ConfigUrl, "detail")) {
+                            var d = GetValue(ConfigUrl,"detail");
+                            var winType = d.WindowType;
+                            if (winType == 'Tab') {
+                                ZW.CMS.TabAdd(data.Name + "@Translations.Get("admin:detail")", url);
+                                return;
+                            } else if (winType == 'Open') {
+                                width = d.WindowWidth == 0 ? width : d.WindowWidth;
+                                height = d.WindowHeight == 0 ? height : d.WindowHeight;
+                            }
+                        }
+                        layer.open({
+                            title: "@Translations.Get("admin:detail")",
+                            type: 2,
+                            area: [ZW.CMS.Common.IsMobilePhone() ? '100%' : width + 'px', height + 'px'],
+                            fixed: true,
+                            maxmin: true,
+                            scroll: false,
+                            content: url
+                        });
+                        break;
+                }
+            } else if (tag == "toolbar") {
+                var list = table.checkStatus(e.config.id);
+                console.log(list);
+                data = list.data;
+                switch (event) {
+                    case 'deletes':
+                        var url = ZW.CMS.Common.GetUrl(Path, hasOwnPropertyIgnoreCase(ConfigUrl, "deletes") ? GetValue(ConfigUrl,'deletes').Url : 'Delete');
+                        if (data.length == 0) { layer.alert("@Translations.Get("admin:selectitemoperation")", { icon: 2 }); return; }
+                        layer.confirm('@Translations.Get("admin:confirmdeleteselectitem")', function (index) {
+                            var _ = '', key = hasOwnPropertyIgnoreCase(data[0],"ID") ? 'ID' : 'Name';
+                            for (var i = 0; i < data.length; i++)_ += GetValue(data[i],key) + ",";
+                            _ = _.replace(/,$/i, '');
+                            console.log("data");
+                            console.log(data);
+                            $.ajax({
+                                method: "post",
+                                data: { ID: _ },
+                                url: url + (Querys == '?' ? '' : Querys),
+                                success: function (e) {
+                                    if (e.status == 'success') {
+                                        layer.alert("@Translations.Get("admin:successoperation")", { icon: 1 }, function (index) {
+                                            window.location.reload(); layer.close(index);
+                                        });
+                                    } else
+                                        layer.alert("@(Translations.Get("admin:failureoperation"))[" + e.message + "].", function (index) { layer.close(index); })
+                                }
+                            });
+                            layer.close(index);
+                        });
+                        break;
+                    case 'add':
+                        var url = ZW.CMS.Common.GetUrl(Path, hasOwnPropertyIgnoreCase(ConfigUrl, "add") ? GetValue(ConfigUrl,'add').Url : 'Add');
+                        url = url + Querys + (Querys == '?' ? '' : '&') + "iframe=1";
+                        var width = '685', height = '450';
+                        if (hasOwnPropertyIgnoreCase(ConfigUrl, "add")) {
+                            var d = GetValue(ConfigUrl, "add");
+                            var winType = d.WindowType;
+                            if (winType == 'Tab') {
+                                ZW.CMS.TabAdd(data.Name + "@Translations.Get("admin:detail")", url);
+                                return;
+                            } else if (winType == 'Open') {
+                                width = d.WindowWidth == 0 ? width : d.WindowWidth;
+                                height = d.WindowHeight == 0 ? height : d.WindowHeight;
+                            }
+                        }
+                        layer.open({
+                            title: '@Translations.Get("admin:insertdata")',
+                            type: 2,
+                            area: [ZW.CMS.Common.IsMobilePhone() ? '100%' : width + 'px', height + 'px'],
+                            fixed: true,
+                            maxmin: true,
+                            scrollbar: false,
+                            content: url
+                        });
+                        break;
+                    case 'getCheckLength':
+                        layer.msg('Selected:' + data.length + '');
+                        break;
+                    case 'laytable_reload':
+                        window.location.reload(); return;
+                        break;
+                }
+            }
+            @Html.Raw(PageData.Page?.LayScript)
+        }
+        $(function () {
+            $(document).keydown(function (event) {
+                if (event.keyCode == 13) $("button.search").trigger("click");
+            });
+            $(document).on("click", ".zw-rightmenu>dl>dd", function () {
+                var o = $(this).parent();
+                var id = o.attr("data-id");
+                var event = $(this).attr("lay-event");
+                RowDataJson["event"] = event;
+                console.log(RowDataJson);
+                FunEvent("tool", RowDataJson);
+            });
+            $(document).click(function () {
+                $(".zw-rightmenu").hide();
+            });
+            $(document.body).append('<div class="zw-rightmenu zw-dpn">' + $("#table-tool-" + PageName).html() + '</div>');
+            var rightmenu = $(".zw-rightmenu").append("<dl></dl>");
+            var dl = rightmenu.find("dl");
+            $(".zw-rightmenu button").each(function () {
+                dl.append('<dd lay-event="' + $(this).attr("lay-event") + '">' + $(this).html() + $(this).attr("data-tips") + '</dd>');
+            });
+            rightmenu.find("div").remove();
+        });
+    });
+    @Html.Raw(PageData.Page?.Script)
+</script>

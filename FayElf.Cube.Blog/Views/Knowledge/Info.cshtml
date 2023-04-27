@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "_Layout1";
+    var PageData = new PageData(ViewData);
+    var know = PageData["knowledge"] as ZWTbKnowledgeModel;
+    ViewBag.Title = know.Title+ "知识库";
+}
+<dd class="knowledge">
+    <h1>@Html.Raw(know.Title)</h1>
+    <h2>@Html.Raw(know.Description)</h2>
+    <div class="content">
+        @Html.Raw(know.Content)
+    </div>
+</dd>

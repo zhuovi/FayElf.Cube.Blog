@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "搜索中心";
+
+}
+<div class="content">
+    <div class="banner">
+        @{
+            var ad = ZWTbAdvertisementModel.Create.Where(a => a.CategoryID == 11 && a.Pass == 1).OrderBy(a => a.SortID).First();
+            if (ad != null)
+            {
+                <img src="@Html.Raw(ad.ImageUrl)" style="width:100%;" />
+            }
+        }
+    </div>
+    <div class="w">
+        <div class="search">
+            <input type="text" id="key" name="key" /><button id="btnsearch" name="btnsearch" type="button" class="zw-icon zw-icon-search2">搜 索</button>
+        </div>
+        <div class="search-result">
+            <dl>
+                <dt style="display:none">小精灵为您检索到相关数据 <i>3</i> 条。</dt>
+            </dl>
+            <div id="pager"></div>
+        </div>
+    </div>
+</div>
+<link type="text/css" rel="stylesheet" href="/layui/css/layui.min.css" />
+<script type="text/javascript">
+    layui.use(['laypage','layer'], function () {
+    var $ = layui.$
+            , laypage = layui.laypage
+            , layer = layui.layer;
+            $(function(){
+            $(".nav-search").remove();
+            $("#key").keyup(function (o) {
+                if (o.keyCode == 13) {
+                    $("#btnsearch").trigger('click');
+                }
+            });
+                var hash =  window.location.hash.replace(/^#/,'');
+                if(hash =='')return;
+                $("#key").val(decodeURIComponent(hash));
+                $("#btnsearch").trigger('click');            
+            });
+        $("#btnsearch").click(function(){
+            var k = $("#key").val();
+            var result = $(".search-result>dl");
+            if(k == ''){
+                result.find("dt").hide();
+                result.find("dd").empty();
+                $("#pager").empty();
+                layer.alert('请输入关键词检索.');
+                return;
+            }
+            search(k,0);
+        });
+            var search = function(k,page){
+                if(k=='')return;
+                var result = $(".search-result>dl");
+                result.find("dd").empty();
+                $.ajax({
+                    type:'post',
+                    url:'/Search/GetJson',
+                    data:{key:k,limit:10,page:page},
+                    success:function(e){
+                        if(e.status == 'success'){
+                        result.find("dt").show();
+                            if(e.data == null || e.data == '' || e.data.length == 0){
+                                result.find("dt").find('i').html('0');
+                                result.append('<dd><span>暂无相关结果!</span></dd>');
+                            $("#pager").empty();
+                            }else{
+                                result.find("dt").find('i').html(e.counts);
+                                e.data.forEach(function(d){
+                                    result.append('<dd>\
+                                <h1><a href="/Article/'+ d.ID.replace(/-/gi, '') + '" target="_blank">' + d.Title + '</a></h1>\
+                                            <h2><a href="/Knowledge/' + d.KnowledgeID + '" target="_blank" class="tag">' + d.KnowledgeName + '</a><a href="/Article/List/' + d.CatalogueID + '" target="_blank" class="tag">' + d.CatalogueName + '</a></h2>\
+                        '+ ((d.Description||'')==''?'<hr/>':('<h3>'+d.Description+'</h3>')) + '\
+                       <i>发布于 '+ d.AddDate.replace(/\.\d+$/gi,'') +' </i>\
+                </dd>');
+                                });
+                                console.log(page);
+                                if(page == 0){
+                                    laypage.render({
+                                        elem: 'pager'
+                                        , count: e.counts
+                                        , limit: 10
+                                        , curr: page==0?1:page
+                                        , theme: '#1E9FFF'
+                                        , jump: function (obj, first) {
+                                            first = first||false;
+                                            if (!first)search(k, obj.curr);
+                                        }
+                                    });
+                                }
+                            }
+                        }else
+                            layer.alert('服务器出错.');
+                    }
+                });
+            }
+        
+});  
+</script>

@@ -1,0 +1,125 @@
+﻿@inject IConfiguration config
+@{
+    var PageData = new PageData(ViewData);
+    var copyright = "";
+    config.GetSection("copyright").GetChildren().Each(c =>
+    {
+        if (c.Key.IsMatch(@"description")) return;
+        copyright += $"{c.Key}:{c.Value},";
+    });
+    copyright = copyright.TrimEnd(',');
+    var version = "v " + @config.GetConfig("version:cms");
+    var programset = XiaoFeng.Mvc.Model.Config.ProgramSetting.Current;
+    var suffix = programset.ProgramName.Multivariate("魔法精灵");
+}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>@((PageData.Title.IsNullOrEmpty() ? "" : (PageData.Title + " - ")) + suffix)</title>
+    <meta name="description" content="@(PageData.Description + suffix)" />
+    <meta name="keywords" content="@(PageData.KeyWords + suffix)" />
+    <meta name="version" content="@version" />
+    @await Html.PartialAsync(@"_Meta")
+    <environment names="Development">
+        <link rel="stylesheet" type="text/css" href="/css/FayElf.min.css" media="all">
+        <script type="text/javascript" src="/scripts/FayElf.min.js"></script>
+        <script type="text/javascript" src="/layui/layui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/blog/css/blog.css" />
+        <link type="text/css" rel="stylesheet" href="/css/zw-icon.min.css" media="all">
+    </environment>
+    <environment names="Production">
+        <link rel="stylesheet" type="text/css" href="/css/FayElf.min.css" media="all">
+        <script type="text/javascript" src="/scripts/FayElf.min.js"></script>
+        <script type="text/javascript" src="/layui/layui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/blog/css/blog.min.css" />
+        <link type="text/css" rel="stylesheet" href="/css/zw-icon.min.css" media="all">
+    </environment>
+    <script type="text/javascript">
+        layui.use(['jquery'],function(){
+            var $ = layui.$;
+            $(window).scroll(function () {
+                var scroH = $(this).scrollTop();
+                if (scroH > 100) $(".go-back").fadeIn(300);
+                else $(".go-back").fadeOut(1000);
+            });
+            $(".go-back").click(function () {
+                $('body,html').animate({ scrollTop: 0 }, 300);
+                return false;
+            });
+            $("#k").keyup(function(o){
+                if(o.keyCode == 13)
+                    $("a.zw-icon-search2").trigger('click');
+            });
+            $("a.zw-icon-search2").click(function(){
+                var k = $("#k").val();
+                 window.location.href = "/Search"+(k==''?'':('#'+encodeURIComponent(k)));
+            });
+            $(".listmenu").click(function(){
+                $(".navmenu").toggle();
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="w fay-ub">
+            <div class="logo">
+                <a href="http://www.eelf.cn" class="fay-logo">
+                    <i></i>
+                    <b></b>
+                    <p>
+                        <b>魔法精灵</b>
+                        <i>WWW.EELF.CN</i>
+                    </p>
+                </a>
+            </div>
+            <ul class="navmenu fay-ub-f1">
+                @foreach(var m in ZWTbCategoryModel.Create.Where(a=>a.ParentID==1 && a.Pass == 1 && a.Attribute==2).OrderBy(a => a.SortID).OrderBy(a => a.AddDate).ToList())
+                {
+                    var target = m.Url.IsSite() ? " target='_blank'" : "";
+                    <li><a href="@Html.Raw(m.Url)"@Html.Raw(target)>@Html.Raw(m.Name)</a></li>
+                }
+            </ul>
+            <div class="fay-ub-f1 fillnull">&nbsp;</div>
+            <div class="listmenu">
+                <i class="zw-icon zw-icon-lista2"></i>
+            </div>
+            <div class="nav-search">
+                <div class="navsearch">
+                <input type="text" id="k" name="k" />
+                <a class="zw-icon zw-icon-search2"></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    @RenderBody()
+    <footer>
+        <div class="w">
+            <div class="link fay-ub">
+                <div class="linktitle">友情链接</div>
+                <div class="fay-ub-f1">
+                    @foreach(var l in ZWTbLinkModel.Create.Where(a=>a.Pass==1 && a.StartTime<=DateTime.Now && a.EndTime >= DateTime.Now).OrderBy(a => a.SortID).OrderBy(a => a.AddDate).ToList())
+                    {
+                        <a href="@Html.Raw(l.Url)" title="@Html.Raw(l.Remark.IsNullOrEmpty()?l.Name:l.Remark)" target="_blank">
+                            @if(l.LinkType==0)
+                                @Html.Raw(l.Name)
+                             else{
+                                <img src="@Html.Raw(l.ImageUrl)" />
+                                }
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="copy">
+                @{
+                    var html = ZWTbPublichtmlModel.Create.Find(a => a.CategoryID == 8);
+                    @Html.Raw(html == null ? "Copyright &copy; (2019-2024) EELF.CN All Rights Reserved." : html?.Content);
+                }
+            </div>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+    <a href="javascript:void(0);" class="go-back zw-icon zw-icon-top2" title="回到顶部"></a>
+    <script type="text/javascript">if (FayElf.IsFunction(FayElf.LoadScripts)) FayElf.LoadScripts(["/token?_=" + new Date().getTime(), "/blog/ping.min.js?_=" + new Date().getTime()]);</script>
+</body>
+</html>

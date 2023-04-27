@@ -1,0 +1,23 @@
+{
+  "IsOpen"/*是否开启上传*/: true,
+  "IsCheckTrojan"/*是否检测文件木马*/: false,
+  "TrojanFeature"/*木马特征*/: "request[\\[\\(\\s]|eval|alert|document\\.|response\\.|system|excute|redirect|delete |create |exec |select |update |\\.asp|\\.php|\\.aspx|\\.ashx|\\.jsp|\\.asmx|\\.js| table | file|for\\(|foreach|drop |alter |dbo\\.|sys\\.|<script|\\.getfolder|\\.createfolder|\\.deletefolder|\\.createdirectory|\\.deletedirectory|\\.saveas|wscript\\.shell|script\\.encode|server\\.|\\.createobject|execute|activexobject|language=|echo|<\\?php|iframe",
+  "MaxLength"/*最大允许上传大小 单位为B 默认为10M*/: 10485760,
+  "FileNameFormat"/*生成文件名格式*/: "ZW_{yyyy}{MM}{dd}{HH}{mm}{ss}{fff}_{rnd:4}.{ext}",
+  "UploadPath"/*上传目录*/: "UploadFiles",
+  "Default"/*默认上传类型配置*/: {
+    "Path"/*存放文件夹名*/: "Other",
+    "Ext"/*后缀名 多个用逗号隔开*/: "html,htm,txt,xml,jpg,jpeg,gif,bmp,png,rar,zip,7z,doc,xls,ppt,pdf,wmv,wma,flv,mp3,mp4,wpeg,swf"
+  },
+  "Data"/*上传类型配置*/: {
+    "Image": {
+      "Path": "Image",
+      "Ext": "jpeg,jpg,bmp,png,gif"
+    }
+  },
+  "ImageCompressEnable"/*是否启用图片压缩*/: true,
+  "ImageCompressLength"/*图片压缩最长边限制*/: 2000,
+  "ImageCompressQuality"/*图片压缩质量*/: 100,
+  "IsDomain"/*上传路径是否带域名*/: false,
+  "Domain"/*域名*/: ""
+}

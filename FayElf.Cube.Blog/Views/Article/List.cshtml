@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "_Layout1";
+    var PageData = new PageData(ViewData);
+    var cataID = PageData["catalogueID"].ToCast<long>();
+    var know = PageData["knowledge"] as ZWTbKnowledgeModel;
+
+    ViewBag.Title = know.Title + "知识库";
+}
+<dd class="list">
+    <ul>
+        @foreach(var a in VIEWBlogModel.Create.Where(a=>a.CatalogueID==cataID && a.Pass == 1).OrderBy(a => a.SortID).OrderByDescending(a => a.AddTimestamp).ToList())
+        {
+            <li>
+                <a href="/Article/@a.ID.Replace("-","")" class="fay-ub">
+                    <i class="zw-icon zw-icon-tags1"></i>
+                    <label class="fay-ub-f1">@Html.Raw(a.Title)</label>
+                    <span>@Html.Raw(a.AddDate.GetValueOrDefault().ToString("yyyy-MM-dd")) 浏览 @Html.Raw(a.Hits) 次</span>
+                </a>
+            </li>
+        }
+    </ul>
+</dd>

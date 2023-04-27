@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DataName="" TypeName="XiaoFeng.Mvc.Config.Page.AdminProgramSet" Description="系统配置页配置">
+	<Page Name="Edit" DataName="" Description="项目设置" PageType="Update" ModelType="XiaoFeng.Mvc.Model.Config.ProgramSetting, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20">
+		<Script>
+			<![CDATA[
+      var ChangeValue1 = function(e){
+        var $ = layui.$;
+        if(e.elem.checked)
+          $('#CloseDescription').parents('.layui-form-item').addClass('zw-dpn');
+        else
+          $('#CloseDescription').parents('.layui-form-item').removeClass('zw-dpn');;
+      }
+      var ChangeValue2 = function(e){
+        var $ = layui.$;
+        if(e.elem.checked)
+          $('#SignTimeOut').parents('.layui-form-item').removeClass('zw-dpn');
+        else
+          $('#SignTimeOut').parents('.layui-form-item').addClass('zw-dpn');;
+      }
+	  var ChangeValue3 = function(e){
+        var $ = layui.$;console.log(e);
+        if(e.elem.value == 'ALLOWFROMURI')
+          $('#AllowFromUri').parents('.layui-form-item').removeClass('zw-dpn');
+        else
+          $('#AllowFromUri').parents('.layui-form-item').addClass('zw-dpn');
+      }
+	  var ChangeValue4 = function(e){
+        var $ = layui.$;
+        if(e.elem.checked)
+          $('#WebSocketPath').parents('.layui-form-item').removeClass('zw-dpn');
+        else
+          $('#WebSocketPath').parents('.layui-form-item').addClass('zw-dpn');;
+      }
+      ]]>
+		</Script>
+		<LayScript>
+			<![CDATA[
+        if($('#IsRuning').is(":checked")){
+          $("#CloseDescription").parents('.layui-form-item').addClass('zw-dpn');
+        }else{
+          $("#CloseDescription").parents('.layui-form-item').removeClass('zw-dpn');
+        }
+        if($('#IsSign').is(":checked")){
+          $("#SignTimeOut").parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $("#SignTimeOut").parents('.layui-form-item').addClass('zw-dpn');
+        }
+		if($('#FrameOptions').val() == 'ALLOWFROMURI')
+          $('#AllowFromUri').parents('.layui-form-item').removeClass('zw-dpn');
+        else
+          $('#AllowFromUri').parents('.layui-form-item').addClass('zw-dpn');
+		if($('#IsWebSocket').is(":checked")){
+          $("#WebSocketPath").parents('.layui-form-item').removeClass('zw-dpn');
+        }else{
+          $("#WebSocketPath").parents('.layui-form-item').addClass('zw-dpn');
+        }
+      ]]>
+		</LayScript>
+		<Tabs TabType="Tab" EventType="DbNull" Class="layui-tab-brief">
+			<Tab Name="BASE" Description="基本配置" Index="1" Visible="true" />
+			<Tab Name="PAGE" Description="页面配置" Index="2" Visible="true" />
+			<Tab Name="USER" Description="用户配置" Index="3" Visible="true" />
+		</Tabs>
+		<Fields>
+			<Field Name="AppId" Description="应用ID" FieldType="label" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="ProgramName" Description="项目名称" FieldType="text" Data="" DefaultValue="" Placeholder="请输入项目名称" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="ProgramSite" Description="项目网址" FieldType="text" Data="" DefaultValue="" Placeholder="请输入项目网址" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="KeyWords" Description="关键词" FieldType="textarea" Data="" DefaultValue="" Placeholder="请输入项目关键词" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="Description" Description="项目描述" FieldType="textarea" Data="" DefaultValue="" Placeholder="请输入项目描述" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="BaiduMapKey" Description="百度地图key" FieldType="text" Data="" DefaultValue="" Placeholder="请输入百度地图key" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="RegistrationCode" Description="注册码" FieldType="textarea" Data="" DefaultValue="" Placeholder="请输入项目注册码" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="Logo" Description="Logo" FieldType="file" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="IsRuning" Description="运行状态" FieldType="checkbox1" Data="运行中|维护中" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeValue1" Resize="true" Event="change" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="CloseDescription" Description="维护说明" FieldType="textarea" Data="" DefaultValue="" Placeholder="请输入项目维护说明" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="Error" Description="错误展示" FieldType="select" FirstOption="false" Data="ENUM:XiaoFeng.Mvc.ExceptionType#Description,value" DefaultValue="Exception" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" TabName="BASE" />
+			<Field Name="IsOpenHttpLog" Description="HTTP日志" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="IsOpenW3CLog" Description="W3C日志" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="BASE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="UEditorDomain" Description="编辑器附件域名" FieldType="text" Data="" DefaultValue="" Placeholder="编辑器中附件域名" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="BASE" />
+			<Field Name="MemberLoginCaptcha" Description="前台验证码" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.Mvc.CaptchaType#Description,key" DefaultValue="0" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Tips="" TabName="PAGE" />
+			<Field Name="MemberLoginCaptchaLength" Description="前台验证码位数" FirstOption="false" FieldType="number" DefaultValue="5" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Tips="" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="AdminLoginCaptcha" Description="后台验证码" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.Mvc.CaptchaType#Description,key" DefaultValue="3" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Tips="" TabName="PAGE" />
+			<Field Name="AdminLoginCaptchaLength" Description="后台验证码位数" FirstOption="false" FieldType="number" DefaultValue="5" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Tips="" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="LayOut" Description="前台模板" FieldType="text" Data="" DefaultValue="" Placeholder="请输入前台基础模板路径" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="AdminLayOut" Description="后台模板" FieldType="text" Data="" DefaultValue="" Placeholder="请输入后台模板路径" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="UserAreaName" Description="用户目录" FieldType="text" Data="" DefaultValue="" Placeholder="请输入用户主目录" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="UserLogin" Description="前台登录地址" FieldType="text" Data="" DefaultValue="{User}/Login" Placeholder="请输入前台登录地址" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="br1" FieldType="br" TabName="PAGE"/>
+			<Field Name="AdminAreaName" Description="后台目录" FieldType="text" Data="" DefaultValue="" Placeholder="请输入后台主目录" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="AdminLogin" Description="后台登录地址" FieldType="text" Data="" DefaultValue="{Admin}/Login" Placeholder="请输入后台登录地址" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="br1" FieldType="br" TabName="PAGE"/>
+			<Field Name="EditorUploadType" Description="上传权限" FirstOption="false" FieldType="select" Data="Enum:XiaoFeng.Mvc.EditorUploadType#Description,value" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="OssType" Description="存储类型" FieldType="select" FirstOption="false" Data="Enum:XiaoFeng.Mvc.Plugins.OSS.Base.OssType#Description,value" DefaultValue="3" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="EnableCompress" Description="压缩功能" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="AllowCross" Description="跨域请求" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="FrameOptions" Description="嵌入框架" FirstOption="false" FieldType="select" Data="Enum:XiaoFeng.Mvc.FrameOptions#Description,name" DefaultValue="NONE" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeValue3" Resize="true" Event="change" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="AllowFromUri" Description="允许域名" FieldType="textarea" Data="" DefaultValue="" Placeholder="请输入嵌入框架所允许的域名" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Tips="一行一个域名" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="ContentSecurityPolicy" Description="内容安全策略(CSP)" FieldType="textarea" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="Headers" Description="Header头" FieldType="textarea" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="IsOpenSSL" Description="SSL" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="IsTicket" Description="验证票据" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="IsOpenApi" Description="Web API" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="IsSign" Description="验证签名" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeValue2" Resize="true" Event="change" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="SignTimeOut" Description="超时时间" FieldType="text" Data="" DefaultValue="" Placeholder="请输入请求超时时间" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Unit="秒" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="SignKey" Description="签名Key" FieldType="text" Data="" DefaultValue="" Placeholder="请输入签名Key" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Unit="" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="IsWebSocket" Description="WebSocket" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="ChangeValue4" Resize="true" Event="change" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="WebSocketPath" Description="请求路径" FieldType="text" Data="" DefaultValue="" Placeholder="请输入WebSocket路径" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Unit="" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="IsParsePhone" Description="手机归属地" FieldType="checkbox1" Data="解析|不解析" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="IsParseIP" Description="IP地址" FieldType="checkbox1" Data="解析|不解析" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="IsParseCity" Description="城市编码" FieldType="checkbox1" Data="解析|不解析" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field FieldType="br" TabName="PAGE"/>
+			<Field Name="WindowsWidth" Description="弹窗宽" FieldType="number" DefaultValue="685" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Unit="px" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="WindowsHeight" Description="弹窗高" FieldType="number" DefaultValue="600" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Unit="px" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="PAGE" />
+			<Field Name="IsOpenRegister" Description="会员注册" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="USER" />
+			<Field Name="IsLogin" Description="会员登录" FieldType="checkbox1" Data="开启|关闭" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" TabName="USER" />
+			<Field FieldType="br" TabName="USER"/>
+			<Field Name="UserStateStorage" Description="前台登录状态存储类型" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.Mvc.UserStateStorage#Description,key" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Tips="" TabName="USER" />
+			<Field Name="AdminStateStorage" Description="后台登录状态存储类型" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.Mvc.UserStateStorage#Description,key" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="true" PassWordType="DbNull" Tips="" TabName="USER" />
+			<Field Name="UserStateRedisConnectionString" Description="登录状态存储Redis连接串" FieldType="textarea" Tips="实例:\n1) redis://7092734@127.0.0.1:6379/0(服务器地址:127.0.0.1,密码:7092734,端口:6379,数据库索引:0)\n2) FayElf.Cube.Redis(DataBase.json 中的key值)。" Data="" DefaultValue="" Placeholder="请输入登录状态存储Redis连接串" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" TabName="USER" />
+		</Fields>
+	</Page>
+</Pages>

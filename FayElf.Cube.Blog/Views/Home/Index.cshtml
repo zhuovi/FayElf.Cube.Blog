@@ -1,0 +1,42 @@
+﻿<div class="content">
+    <div class="banner">
+        @{
+            var ad = ZWTbAdvertisementModel.Create.Where(a => a.CategoryID == 4 && a.Pass == 1).OrderBy(a => a.SortID).First();
+            if (ad != null)
+            {
+                <img src="@Html.Raw(ad.ImageUrl)" style="width:100%;" />
+            }
+        }
+    </div>
+    <div class="w">
+        <dl class="zhishi">
+            <dt><label>知识库</label><div class="line"></div></dt>
+            @foreach(var k in ZWTbKnowledgeModel.Create.Where(a => a.Pass == 1).OrderBy(a => a.SortID).Take(6).ToList())
+            {
+                <dd>
+                    <div class="item">
+                        <a class="title" href="/Knowledge/@k.ID"><i class="
+zw-icon zw-icon-knowledge1"></i>@Html.Raw(k.Title)
+                        </a>
+                        <div class="desc">@Html.Raw(k.Description)</div>
+                        <ul>
+                            @foreach(var b in ZWTbBlogModel.Create.Where(a=>a.KnowledgeID==k.ID && a.Pass == 1).OrderByDescending(a => a.AddTimestamp).Take(5).ToList())
+                            {
+                                <li>
+                                    <a href="/Article/@b.ID.Replace("-","")" class="fay-ub">
+
+                                        <i class="
+zw-icon zw-icon-tags1"></i>
+                                        <label class="fay-ub-f1">@Html.Raw(b.Title)</label>
+                                        <span>@Html.Raw(b.AddDate.GetValueOrDefault().ToString("yyyy-MM-dd")) 浏览 @Html.Raw(b.Hits) 次</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </dd>
+            }
+        </dl>
+        <div style="clear:both"></div>
+    </div>
+</div>

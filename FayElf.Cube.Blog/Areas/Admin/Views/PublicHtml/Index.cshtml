@@ -1,0 +1,34 @@
+﻿@model Page;
+@{
+    var PageData = new PageData(ViewData, Model);
+}
+<script type="text/javascript" src="/UEditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/UEditor/ueditor.all.js"></script>
+<style type="text/css">
+    .categorylist > a.layui-btn {
+        margin: 3px;
+    }
+</style>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">@PageData["CategoryName"]</div>
+                <div class="layui-card-body">
+                    <div class="table-reload-btns layui-form categorylist" style="padding-bottom: 10px;border-bottom:1px solid #f6f6f6;">
+                        @{
+                            foreach (var c in PageData["CategoryList"] as List<FayElf.Blog.Model.ZWTbCategoryModel>)
+                            {
+                                <a href="?ID=@c.ID" title="@c.Name" class="layui-btn @(c.ID.ToString() == PageData["ID"].ToString()?"layui-btn-danger":"")">@c.Name</a>
+                            }
+                        }
+                    </div>
+                    @if (PageData["ID"].IsNotNullOrEmpty())
+                    {
+                        <Partial name="_Form" view-data="ViewData" model="PageData?.Page" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

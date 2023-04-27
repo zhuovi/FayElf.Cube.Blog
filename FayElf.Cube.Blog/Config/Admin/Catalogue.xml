@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages DataName="FayElf.Cube.Blog" TypeName="FayElf.Blog.Model.VIEWCatalogueModel, FayElf.Blog.Model">
+  <Page Name="List" DataName="FayElf.Cube.Blog" Description="知识库目录列表" PageType="List" ModelType="FayElf.Blog.Model.VIEWCatalogueModel, FayElf.Blog.Model" SqlOrder="AddDate desc" IsPage="true" IsToolBar="true" IsBox="true" IsNum="true" PageSize="20" PrimaryKey="ID" ListType="List" IconIndex="2" CellEditCallBack="EditCell">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+	  <Script>
+		  <![CDATA[   
+		  var EditCell = function(e,oval){
+          if(!/^\d+$/.test(e.value)){
+            e.data[e.field] = oval;
+            e.value = oval;
+            e.update(e.data);
+            console.log(e);
+            return;
+          }
+          console.log(e);
+          layui.$.ajax({
+            type:'POST',
+            url:'/'+ AdminAreaName +'/Knowledge/UpdateSortID',
+            data:{ID:e.data['ID'],SortID:e.value},
+            success:function(es){
+              if(es.status == 'success'){
+                layer.msg('更新成功.');
+              }else{
+                layer.msg('更新失败.');
+                e.data[e.field] = oval;
+                e.value = oval;
+                e.update(e.data);
+              }
+            }
+          });
+        }  
+    ]]>
+	  </Script>
+    <Fields>
+      <Field Name="ID" Description="ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Name" Description="名称" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="KnowledgeID" Description="KnowledgeID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+		<Field Name="KnowledgeName" Description="所属知识库" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="ParentID" Description="ParentID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Description" Description="说明" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="SortID" Description="排序" FieldType="labeltext" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="AddDate" Description="添加时间" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="145" MinWidth="0" Height="0" Visible="true" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="AddTimestamp" Description="AddTimestamp" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+    </Fields>
+    <Buttons Width="0">
+      <Button Name="Deletes" AuthID="3" Description="批量删除" ButtonType="button" Event="DbNull" Class="layui-btn-danger" Title="批量删除" lay-event="deletes" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]></Button>
+      <Button Name="Add" AuthID="1" Description="添加" ButtonType="button" Event="DbNull" Title="添加" lay-event="add" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe654;</i>添加]]></Button>
+    </Buttons>
+    <Menus Width="114">
+      <Button Name="Detail" AuthID="4" Description="详情" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="详情" lay-event="detail" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe65f;</i>]]></Button>
+      <Button Name="Edit" AuthID="2" Description="编辑" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="编辑" lay-event="edit" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe642;</i>]]></Button>
+      <Button Name="Delete" AuthID="3" Description="删除" ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" Title="删除" lay-event="delete" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>]]></Button>
+    </Menus>
+    <Querys>
+      <Query Name="key" Description="关键词" FieldType="text" Placeholder="请输入关键词" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" MinWidth="0" Height="0" Visible="true" Format="(Name like '%{0}%')" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="false" Event="DbNull" lay-filter="key" InLine="false" PassWordType="DbNull" IsField="true" />
+		<Query Name="KnowledgeID" FirstOption="请选择所属知识库" Description="" Data="SQL:select Title,ID from ZW_Tb_Knowledge#FayElf.Cube.Blog" FieldType="select" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" MinWidth="0" Height="0" Visible="true" Format="" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="false" Event="DbNull" lay-filter="key" InLine="false" PassWordType="DbNull" IsField="true" />
+    </Querys>
+  </Page>
+  <Page Name="Delete" DataName="FayElf.Cube.Blog" Description="删除Catalogue" PageType="Delete" ModelType="FayElf.Blog.Model.ZWTbCatalogueModel, FayElf.Blog.Model" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20" PrimaryKey="ID" ListType="List" IconIndex="2">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields />
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+  <Page Name="Edit" DataName="FayElf.Cube.Blog" Description="编辑Catalogue" PageType="Update" ModelType="FayElf.Blog.Model.ZWTbCatalogueModel, FayElf.Blog.Model" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20" PrimaryKey="ID" ListType="List" IconIndex="2">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields>
+      <Field Name="Name" Description="名称" FieldType="text" Placeholder="请输入知识库名称" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="KnowledgeID" Description="所属知识库" Data="SQL:select Title,ID from ZW_Tb_Knowledge#FayElf.Cube.Blog" FieldType="select" Placeholder="请选择所属知识库" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="ParentID" Description="父节点" FieldType="text" Placeholder="ParentID" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Description" Description="说明" FieldType="textarea" Placeholder="请输入说明" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="SortID" Description="排序" FieldType="number" Placeholder="请输入排序" DefaultValue="100000" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+    </Fields>
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+  <Page Name="Detail" DataName="FayElf.Cube.Blog" Description="Catalogue详情" PageType="Detail" ModelType="FayElf.Blog.Model.VIEWCatalogueModel, FayElf.Blog.Model" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="10" PrimaryKey="ID" ListType="List" IconIndex="2">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields>
+      <Field Name="ID" Description="ID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Name" Description="Name" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="KnowledgeID" Description="KnowledgeID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="ParentID" Description="ParentID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="Description" Description="Description" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="SortID" Description="SortID" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="AddDate" Description="AddDate" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+      <Field Name="AddTimestamp" Description="AddTimestamp" FieldType="label" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+    </Fields>
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+</Pages>

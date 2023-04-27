@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DataName="FayElf.Cube.Blog" TypeName="FayElf.CMS.Model.VIEWPublichtmlModel, FayElf.Blog.Model" Description="单页页配置">
+  <Page Name="Delete" DataName="FayElf.Cube.Blog" Description="删除图文单页" PageType="Delete" ModelType="FayElf.Blog.Model.ZWTbPublichtmlModel, FayElf.Blog.Model" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields />
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+  <Page Name="Edit" DataName="FayElf.Cube.Blog" Description="编辑图文单页" PageType="Update" ModelType="FayElf.Blog.Model.ZWTbPublichtmlModel, FayElf.Blog.Model" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields>
+      <Field Name="ID" Description="ID" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="CategoryID" Description="CategoryID" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="false" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="Title" Description="标题" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="ImageUrl" Description="缩略图" FieldType="file" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="Image" ValueFormat="" Align="left" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="Content" Description="内容" FieldType="editor" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="300" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="keywords" Description="关键词" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="Description" Description="描述" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="left" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+    </Fields>
+    <Buttons Width="0" />
+    <Menus Width="0" />
+    <Querys />
+  </Page>
+  <Page Name="List" DataName="FayElf.Cube.Blog" Description="PublicHtml列表" PageType="List" ModelType="FayElf.Blog.Model.VIEWPublichtmlModel, FayElf.Blog.Model" SqlOrder="AddDate desc" IsPage="true" IsToolBar="true" IsBox="true" IsNum="true" PageSize="20">
+    <Tabs TabType="DbNull" EventType="DbNull" />
+    <Fields>
+      <Field Name="AddDate" Description="添加时间" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="CategoryID" Description="所属分类" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="CategoryName" Description="分类名称" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="Content" Description="内容" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="Description" Description="描述" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="ID" Description="ID" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="ImageUrl" Description="缩略图" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="keywords" Description="关键词" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="Title" Description="标题" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+      <Field Name="UpdateTime" Description="更新时间" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Format="" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="center" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+    </Fields>
+    <Buttons Width="0">
+      <Button Name="Deletes" AuthID="3" Description="批量删除" ButtonType="button" Event="DbNull" Class="layui-btn-danger" Title="批量删除" lay-event="deletes" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="false"><![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]></Button>
+      <Button Name="Add" AuthID="1" Description="添加" ButtonType="button" Event="DbNull" Class="" Title="添加" lay-event="add" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="false"><![CDATA[<i class="layui-icon">&#xe654;</i>添加]]></Button>
+    </Buttons>
+    <Menus Width="114">
+      <Button Name="Detail" AuthID="4" Description="详情" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="详情" lay-event="detail" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="false"><![CDATA[<i class="layui-icon">&#xe65f;</i>]]></Button>
+      <Button Name="Edit" AuthID="2" Description="编辑" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="编辑" lay-event="edit" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="false"><![CDATA[<i class="layui-icon">&#xe642;</i>]]></Button>
+      <Button Name="Delete" AuthID="3" Description="删除" ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" Title="删除" lay-event="delete" lay-submit="false" win-type="Null" win-width="0" win-height="0" Visible="false"><![CDATA[<i class="layui-icon">&#xe640;</i>]]></Button>
+    </Menus>
+    <Querys>
+      <Query Name="key" Description="关键词" FieldType="text" DefaultValue="" Placeholder="请输入关键词" Must="false" MinLength="-1" MaxLength="-1" Sort="false" Width="0" MinWidth="0" Height="0" Visible="true" Format="(Name like '%{0}%')" Unique="false" Encrypt="0" Disabled="true" Checked="false" CallBack="" Resize="false" Event="DbNull" lay-filter="key" InLine="false" PassWordType="DbNull" />
+    </Querys>
+  </Page>
+</Pages>

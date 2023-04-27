@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Product>魔法精灵博客</Product>
+		<ProductName>魔法精灵博客</ProductName>
+		<VersionPrefix>1.0</VersionPrefix>
+		<VersionSuffix>1</VersionSuffix>
+		<!--切记 发布时 此属性设置为 true-->
+		<RazorCompileOnBuild>false</RazorCompileOnBuild>
+		<!--版权配置-->
+		<Authors>Jacky</Authors>
+		<Company>魔法精灵</Company>
+		<Copyright>CopyRight @ (2008-2024) FAYELF All Rights Reserved. 魔法精灵(www.fayelf.com) QQ:7092734 Email:jacky@fayelf.com</Copyright>
+		<PackageTags>FAYELF;XiaoFeng;</PackageTags>
+		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
+		<FileVersion>$(Version)</FileVersion>
+		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+		<ProductVersion>$(VersionPrefix)</ProductVersion>
+		<!--语言包配置-->
+		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+	</PropertyGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\FayElf.Blog.Model\FayElf.Blog.Model.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Remove="Html\**\*" />
+	</ItemGroup>
+	<!--全局引用-->
+	<ItemGroup Condition="'$(TargetFramework)'=='net6.0' or '$(TargetFramework)'=='net7.0'">
+		<Using Include="XiaoFeng;XiaoFeng.IO;XiaoFeng.Mvc;XiaoFeng.Http;XiaoFeng.Json;XiaoFeng.Xml;Microsoft.AspNetCore.Builder;Microsoft.Extensions.DependencyInjection;" />
+		<Using Remove="System.Net.Http.Json;Microsoft.AspNetCore.Http;"/>
+	</ItemGroup>
+	<!--输出目录配置-->
+	<ItemGroup Condition="'$(Configuration)|$(OutputType)'=='Release|Exe'">
+		<Content Include="AppData\**\*" CopyToOutputDirectory="PreserveNewest" />
+		<Content Include="Html\**\*" CopyToOutputDirectory="PreserveNewest" />
+		<Content Include="Config\Admin\*" CopyToOutputDirectory="PreserveNewest" />
+		<Content Include="UploadFiles\**\*" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+	<!--数据库SQLite引用-->
+	<ItemGroup>
+		<PackageReference Include="Stub.System.Data.SQLite.Core.NetStandard" Version="1.0.117" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="XiaoFeng.Mvc.AdminWinDesk" Version="1.0.2" />
+	</ItemGroup>
+	<!--调试时启用运行时编译视图引用-->
+	<ItemGroup Condition="'$(Configuration)|$(RazorCompileOnBuild)'=='Debug|False' ">
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.27" Condition="'$(TargetFramework)' == 'netcoreapp3.1' "/>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.17" Condition="'$(TargetFramework)' == 'net5.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.13" Condition="'$(TargetFramework)' == 'net6.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.2" Condition="'$(TargetFramework)' == 'net7.0'" />
+	</ItemGroup>
+</Project>

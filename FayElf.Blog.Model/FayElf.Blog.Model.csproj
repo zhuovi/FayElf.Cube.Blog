@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Product>魔法精灵博客-模型</Product>
+		<ProductName>魔法精灵博客-模型</ProductName>
+		<VersionPrefix>1.0</VersionPrefix>
+		<VersionSuffix>0</VersionSuffix>
+		<XiaoFeng></XiaoFeng>
+		<!--版权配置-->
+		<Authors>Jacky</Authors>
+		<Company>魔法精灵</Company>
+		<Copyright>CopyRight @ (2008-2024) FAYELF All Rights Reserved. 魔法精灵(www.fayelf.com) QQ:7092734 Email:jacky@fayelf.com</Copyright>
+		<PackageTags>FAYELF;XiaoFeng;</PackageTags>
+		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
+		<FileVersion>$(Version)</FileVersion>
+		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+		<ProductVersion>$(VersionPrefix)</ProductVersion>
+		<!--语言包配置-->
+		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+	</PropertyGroup>
+	<ItemGroup>
+		<Using Include="XiaoFeng;XiaoFeng.IO;" />
+		<PackageReference Include="XiaoFeng" Version="3.5.1" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_Layout";
+}
+<div class="content">
+    <div class="banner">
+        @{
+            var ad = ZWTbAdvertisementModel.Create.Where(a => a.CategoryID == 11 && a.Pass == 1).OrderBy(a => a.SortID).First();
+            if (ad != null)
+            {
+                <img src="@Html.Raw(ad.ImageUrl)" style="width:100%;" />
+            }
+            var PageData = new PageData(ViewData);
+            var Model = PageData["knowledge"] as ZWTbKnowledgeModel;
+            var catalkogueID = PageData["catalogueID"].ToCast<long>();
+            var catalkogueName = PageData["catalogueName"]?.ToString();
+
+            var catas = ZWTbCatalogueModel.Create.Where(a => a.KnowledgeID == Model.ID).OrderBy(a => a.SortID).ToList();
+        }
+    </div>
+    <div class="w fay-ub">
+        <div class="catalogue">
+            <dl>
+                <dt>@Html.Raw(Model?.Title) 目录</dt>
+                @foreach (var cata in catas)
+                {
+                    <dd><a href="/Article/List/@Html.Raw(cata.ID)"@Html.Raw(catalkogueID==cata.ID?" class='selected'":"")><i></i>@Html.Raw(cata.Name)</a></dd>
+                }
+            </dl>
+        </div>
+        <div class="fay-ub-f1">
+            <dl class="zhishi">
+                <dt><label>@Html.Raw(Model?.Title) 知识库</label><div class="line"></div></dt>
+                <dd class="cataloguem">
+                    <ul>
+                        <li>@Html.Raw(Model?.Title) 目录</li>
+                        @foreach (var cata in catas)
+                        {
+                    <li><a href="/Article/List/@Html.Raw(cata.ID)" @Html.Raw(catalkogueID==cata.ID?" class='selected'":"")><i></i>@Html.Raw(cata.Name)</a></li>
+                        }
+                    </ul>
+                </dd>
+                @RenderBody()
+            </dl>
+        </div>
+    </div>
+</div>

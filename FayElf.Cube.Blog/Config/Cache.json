@@ -1,0 +1,6 @@
+{
+  "CacheKey"/*缓存Key*/: "FAYELF_CACHE",
+  "CacheType"/*缓存类型 不缓存: No, 内存: Memory, 磁盘: Disk, Redis: Redis, Memcache: Memcache, MongoDB: MongoDB*/: "Memory",
+  "CachePath"/*缓存路径*/: "Cache",
+  "ConnectionStringKey"/*数据库连接字符串KEY*/: null
+}

@@ -1,0 +1,24 @@
+﻿@model ZWTbPublichtmlModel
+@{
+    ViewBag.Title = Model?.Title;
+}
+<div class="content">
+    <div class="banner">
+        @{
+            var ad = ZWTbAdvertisementModel.Create.Where(a => a.CategoryID == 11 && a.Pass == 1).OrderBy(a => a.SortID).First();
+            if (ad != null)
+            {
+                <img src="@Html.Raw(ad.ImageUrl)" style="width:100%;" />
+            }
+        }
+    </div>
+    <div class="w">
+        <dl class="zhishi">
+            <dt><label>@Html.Raw(Model?.Title)</label><div class="line"></div></dt>
+           <dd style="width:100%;">
+               @Html.Raw(Model?.Content)
+           </dd>
+        </dl>
+        <div style="clear:both"></div>
+    </div>
+</div>

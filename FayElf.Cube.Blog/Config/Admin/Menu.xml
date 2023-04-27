@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" DataName="FayElf.Cube.Admin" TypeName="XiaoFeng.Mvc.Config.Page.AdminMenu" Description="菜单页配置">
+	<Page Name="Delete" DataName="FayElf.Cube.Admin" Description="删除菜单" PageType="Delete" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbMenuModel, XiaoFeng.Mvc" IsPage="true" IsToolBar="true" IsBox="true" IsNum="true" PageSize="10">
+	</Page>
+	<Page Name="List" DataName="FayElf.Cube.Admin" Description="菜单列表" PageType="List" ModelType="XiaoFeng.Mvc.Model.Admin.VIEWMenuModel, XiaoFeng.Mvc" IsPage="true" IsToolBar="true" SqlOrder="SortID asc" IsBox="true" IsNum="false" PageSize="1000" ListType="TreeList" PrimaryKey="ID" ParentID="ParentID" IconIndex="2" CellEditCallBack="EditCell">
+		<Script>
+			<![CDATA[
+     var SetPass = function(o,data,json){
+     var $ = layui.$,layer = layui.layer;
+      var elem = data.elem;
+      var ID = json["ID"];
+      $.ajax({
+        type:'POST',
+        data:{ID:ID,Pass:elem.checked},
+        url:'/'+ AdminAreaName +'/Menu/SetPass',
+        success:function(e){
+          if(e.status == 'success'){
+            layer.alert('操作成功.',{icon:1});
+          }else
+            layer.alert('操作失败['+e.message+'].',{icon:2});
+        },
+        error:function(){
+          layer.alert('服务器出错.',{icon:2});
+        }
+      });
+     }
+	 var EditCell = function(e){
+          if(e.value == '' || e.value == e.data[e.field]){
+            return;
+          }
+          console.log(e);
+           ZW.CMS.SetFieldData(AdminAreaName +'/Menu',{WhereName:'ID',WhereValue:e.data["ID"],FieldName:e.field,FieldValue:e.value});
+        }
+    ]]>
+		</Script>
+		<Tabs TabType="DbNull" EventType="DbNull" />
+		<Fields>
+			<Field Name="ID" Description="ID" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="Name" Description="菜单名称" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Link="Detail" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="ParentID" Description="父节点ID" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="false" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="ParentName" Description="父菜单" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="Icon" Description="图标" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="60" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="Url" Description="网址" FieldType="labeltext" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="SortID" Description="排序" FieldType="labeltext" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="80" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="Pass" Description="状态" FieldType="checkbox1" Data="显示|隐藏" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="100" Height="0" Visible="true" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="SetPass" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+			<Field Name="AddDate" Description="添加时间" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="140" Height="0" Visible="true" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="center" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" />
+		</Fields>
+		<Buttons Width="0">
+			<Button Name="CloseAll" Description="全部折叠" ButtonType="button" Event="DbNull" Class="" Title="全部折叠" lay-event="FoldAll" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="zw-icon">&#xe141;</i>全部折叠]]></Button>
+			<Button Name="OpenAll" Description="全部展开" ButtonType="button" Event="DbNull" Class="" Title="全部展开" lay-event="ExpandAll" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="zw-icon">&#xe142;</i>全部展开]]></Button>
+			<Button Name="Deletes" Description="批量删除" ButtonType="button" Event="DbNull" Class="layui-btn-danger" Title="批量删除" lay-event="deletes" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>批量删除]]></Button>
+			<Button Name="Add" Description="添加" ButtonType="button" Event="DbNull" Class="" Title="添加" lay-event="add" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="1" Visible="true"><![CDATA[<i class="layui-icon">&#xe654;</i>添加]]></Button>
+		</Buttons>
+		<Menus Width="135">
+			<Button Name="AddChild" Description="添加" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="添加" lay-event="addchild" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="1" Visible="true"><![CDATA[<i class="layui-icon">&#xe654;</i>]]></Button>
+			<Button Name="Detail" Description="详情" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="详情" lay-event="detail" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="4" Visible="true"><![CDATA[<i class="layui-icon">&#xe65f;</i>]]></Button>
+			<Button Name="Edit" Description="编辑" ButtonType="button" Event="DbNull" Class="layui-btn-xs" Title="编辑" lay-event="edit" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="2" Visible="true"><![CDATA[<i class="layui-icon">&#xe642;</i>]]></Button>
+			<Button Name="Delete" Description="删除" ButtonType="button" Event="DbNull" Class="layui-btn-xs layui-btn-danger" Title="删除" lay-event="delete" lay-submit="false" win-type="Null" win-width="0" win-height="0" AuthID="3" Visible="true"><![CDATA[<i class="layui-icon">&#xe640;</i>]]></Button>
+		</Menus>
+		<Querys>
+			<Query Name="key" Description="关键词" FieldType="text" DefaultValue="" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Format="" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="key" InLine="true" PassWordType="DbNull" />
+		</Querys>
+	</Page>
+	<Page Name="Add" DataName="FayElf.Cube.Admin" Description="添加菜单" PageType="Add" ModelType="XiaoFeng.Mvc.Model.Admin.ZWTbMenuModel, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20">
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="Name" Description="菜单名称" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Name" InLine="false" PassWordType="DbNull" />
+			<Field Name="ParentID" Description="父节点" FirstOption="{text:'顶级菜单',value:0},{text:'请选择',value:''}" FieldType="selects" Data="/{Set:AdminAreaName}/Menu/Get/0?Pass=1" DefaultValue="{Query:ID}" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="ParentID" InLine="false" PassWordType="DbNull" />
+			<Field Name="Icon" Description="图标" FieldType="icons" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Icon" InLine="false" PassWordType="DbNull" />
+			<Field Name="Url" Description="网址" FieldType="text" Data="" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Url" InLine="false" PassWordType="DbNull" />
+			<Field Name="AuthID" Description="权限" FieldType="select" FirstOption="false" Data="Enum:XiaoFeng.Mvc.PermissionFlags#Description,Value" DefaultValue="" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="AuthID" InLine="true" PassWordType="DbNull" />
+			<Field Name="SortID" Description="排序" FieldType="text" Data="" DefaultValue="100000" Placeholder="数字越小越靠前" Must="true" Pattern="\d+" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="var val = $(this).val();if(val.length&gt;8)val=val.substring(0,8);$(this).val(val.replace(/[\D]+/,''));" Resize="true" Event="keyup" lay-filter="SortID" InLine="true" PassWordType="DbNull" />
+			<Field Name="Pass" Description="是否显示" FieldType="checkbox1" Data="显示|隐藏" DefaultValue="true" Placeholder="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="true" CallBack="" Resize="true" Event="DbNull" lay-filter="Pass" InLine="true" PassWordType="DbNull" />
+		</Fields>
+	</Page>
+	<Page Name="Detail" DataName="FayElf.Cube.Admin" Description="菜单详情" PageType="Detail" ModelType="XiaoFeng.Mvc.Model.Admin.VIEWMenuModel, XiaoFeng.Mvc" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="10">
+		<Tabs TabType="Group" EventType="DbNull" />
+		<Fields>
+			<Field Name="Name" Description="菜单名称" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Name" InLine="false" PassWordType="DbNull" />
+			<Field Name="ParentName" Description="父节点" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="ParentID" InLine="false" PassWordType="DbNull" />
+			<Field Name="Icon" Description="图标" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Icon" InLine="false" PassWordType="DbNull" />
+			<Field Name="Url" Description="网址" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Url" InLine="false" PassWordType="DbNull" />
+			<Field Name="AuthID" Description="权限" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="AuthID" InLine="false" PassWordType="DbNull" Data="Enum:XiaoFeng.Mvc.PermissionFlags#Description,Value" />
+			<Field Name="SortID" Description="排序" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="SortID" InLine="false" PassWordType="DbNull" />
+			<Field Name="Pass" Description="是否显示" FieldType="label" Data="显示$true|隐藏$false" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="Pass" InLine="false" PassWordType="DbNull" />
+			<Field Name="AddDate" Description="添加时间" FieldType="label" DefaultValue="" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" Height="0" Visible="true" ValueFormat="Date:yyyy-MM-dd HH:mm:ss" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" CallBack="" Resize="true" Event="DbNull" lay-filter="AddDate" InLine="false" PassWordType="DbNull" />
+		</Fields>
+	</Page>
+</Pages>

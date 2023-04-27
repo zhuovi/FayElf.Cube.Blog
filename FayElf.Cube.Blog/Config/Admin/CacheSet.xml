@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages TypeName="XiaoFeng.Config.CacheConfig, XiaoFeng">
+	<Page Name="Edit" Description="缓存配置" PageType="Update" ModelType="XiaoFeng.Config.CacheConfig, XiaoFeng" IsPage="false" IsToolBar="false" IsBox="true" IsNum="true" PageSize="20" PrimaryKey="ID" ListType="List" IconIndex="2">
+		<Tabs TabType="DbNull" EventType="DbNull" />
+		<Fields>
+			<Field Name="CacheKey" Description="缓存Key" FieldType="text" Placeholder="请输入缓存Key" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+			<Field Name="CacheType" Description="缓存类型" FirstOption="false" FieldType="select" Data="ENUM:XiaoFeng.CacheType, XiaoFeng#Description,key" Placeholder="缓存类型" Must="true" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+			<Field Name="CachePath" Description="缓存路径" FieldType="text" Placeholder="缓存路径" Must="false" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+			<Field Name="ConnectionStringKey" Description="存储数据库" FieldType="select" Placeholder="存储数据库" Must="false" Data="DataBase:" MinLength="-1" MaxLength="-1" Sort="true" Width="0" MinWidth="0" Height="0" Visible="true" Align="left" Unique="false" Encrypt="No" Disabled="true" Checked="false" Resize="true" Event="DbNull" InLine="false" PassWordType="DbNull" IsField="true" />
+		</Fields>
+		<Buttons Width="0" />
+		<Menus Width="0" />
+		<Querys />
+	</Page>
+</Pages>

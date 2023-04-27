@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <StaticFile DirectoryBrowsing="false">
+    <ServerPath><![CDATA[Html]]></ServerPath>
+  </StaticFile>
+  <StaticFile DirectoryBrowsing="false">
+    <ServerPath><![CDATA[UEditor]]></ServerPath>
+    <RequestPath><![CDATA[/UEditor]]></RequestPath>
+  </StaticFile>
+  <StaticFile DirectoryBrowsing="false">
+    <ServerPath><![CDATA[UploadFiles]]></ServerPath>
+    <RequestPath><![CDATA[/UploadFiles]]></RequestPath>
+  </StaticFile>
+</Root>

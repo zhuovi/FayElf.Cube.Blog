@@ -1,0 +1,88 @@
+﻿@model VIEWBlogModel
+@{
+    Layout = "_Layout1";
+    var PageData = new PageData(ViewData);
+    var know = PageData["knowledge"] as ZWTbKnowledgeModel;
+    ViewBag.Title = Model.Title + "-" + Model.CatalogueName + "-" + Model.KnowledgeName + "知识库";
+}
+<link href="/editormd/css/editormd.css" rel="stylesheet"/>
+<dd class="info">
+    <div class="title">@Html.Raw(Model.Title)</div>
+    <div class="date">作者 : @Html.Raw(Model.Author) 发布于 @Html.Raw(Model.AddDate?.ToString("yyyy-MM-dd HH:mm:ss")) 浏览 @Html.Raw(Model.Hits) 次  </div>
+    <div class="tags"><a href="/Knowledge/@Html.Raw(Model.KnowledgeID)" target="_blank" class="tag">@Html.Raw(Model.KnowledgeName)</a><a href="/Article/List/@Html.Raw(Model.CatalogueID)" target="_blank" class="tag">@Html.Raw(Model.CatalogueName)</a></div>
+    <div class="desc">@Html.Raw(Model.Description)</div>
+    <div class="contents">
+        <div id="contents">@Html.Raw(Model.Content)</div>
+    </div>
+    <div class="comment">
+        @{
+            var comments = ZWTbCommentModel.Create.Where(a => a.BlogID == Model.ID && a.Pass == 1).OrderBy(a => a.SortID).OrderByDescending(a => a.AddTimestamp).ToList();
+        }
+        <div class="title"><i class="zw-icon zw-icon-sms"></i>所有评论(@Html.Raw(comments.Count))</div>
+        @foreach(var c in comments)
+        {
+            <div class="nickname">用户 @Html.Raw(c.UserName) 评论于  @Html.Raw(c.AddDate?.ToString("yyyy-MM-dd HH:mm"))</div>
+            <div class="msg">@Html.Raw(c.Content)</div>
+        }
+
+        <div class="message">
+            <form class="layui-form" action="javascript:void(0);" lay-filter="message">
+            <ul>
+                <li><label>用户<i>*</i></label><input name="nickname" id="nickname" type="text" class="fay-input" placeholder="请输入您的用户名" /></li>
+                    <li><label>QQ</label><input name="qq" id="qq" type="text" class="fay-input" placeholder="请输入您的QQ" /></li>
+                    <li><label>Email</label><input name="email" id="email" type="text" class="fay-input" placeholder="请输入您的Email" /></li>
+                    <li><label>内容<i>*</i></label><textarea name="msg" id="msg" type="text" class="fay-textarea" style="height:120px;resize:none;" placeholder="请输入您的评论内容"></textarea></li>
+                <li style="margin-top:10px;"><input class="fay-btn submit" value="提交评论" type="button" lay-submit="" lay-filter="message" /><input class="fay-dpn" type="reset" id="reset" name="reset"/></li>
+            </ul>
+            </form>
+        </div>
+    </div>
+</dd>
+
+<script src="/editormd/lib/marked.min.js"></script>
+<script src="/editormd/lib/prettify.min.js"></script>
+<script src="/editormd/lib/raphael.min.js"></script>
+<script src="/editormd/lib/underscore.min.js"></script>
+<script src="/editormd/lib/sequence-diagram.min.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form'],function(){
+    var layer = layui.layer
+    , $ = layui.$
+    , form = layui.form;
+    window.jQuery = $;
+        form.on('submit(message)', function (data) {
+            if(data.field['nickname'].length<3){
+                layer.alert('请输入您的姓名.',{icon:2});
+                $('#nickname').focus();
+                return;
+            }
+            if (data.field['msg'].length < 3) {
+                layer.alert('请输入留言内容.', { icon: 2 });
+                $('#msg').focus();
+                return;
+            }
+            $.ajax({
+                type:'post',
+                data:data.field,
+                success:function(e){
+                    if(e.status == 'success'){
+                        layer.alert('评论成功.',{icon:1});
+                    }else
+                        layer.alert('评论失败.',{icon:2});
+                    $("#reset").trigger('click');
+                }
+            });
+            return false;
+        });
+        $.getScript("/editormd/editormd.js", function () {
+            testEditormdView = editormd.markdownToHTML("contents", {
+                htmlDecode: "style,script,iframe",  // you can filter tags decode
+                emoji: true,
+                taskList: true,
+                tex: false,  // 默认不解析
+                flowChart: false,  // 默认不解析
+                sequenceDiagram: false,  // 默认不解析
+            });
+        });
+});
+</script>
